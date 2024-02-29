@@ -23,7 +23,6 @@ import (
 )
 
 const (
-	// Foreground colors
 	FgRegular   Foreground = 39 // Reset foreground attributes.
 	FgBlack     Foreground = 30 // Print black foreground.
 	FgRed       Foreground = 31 // Print red foreground.
@@ -41,8 +40,9 @@ const (
 	FgHiMagenta Foreground = 95 // Print high intensity magenta foreground.
 	FgHiCyan    Foreground = 96 // Print high intensity cyan foreground.
 	FgHiWhite   Foreground = 97 // Print high intensity white foreground.
+)
 
-	// Background colors
+const (
 	BgRegular   Background = 49  // Reset background attributes.
 	BgBlack     Background = 40  // Print black background.
 	BgRed       Background = 41  // Print red background.
@@ -60,8 +60,9 @@ const (
 	BgHiMagenta Background = 105 // Print high intensity magenta background.
 	BgHiCyan    Background = 106 // Print high intensity cyan background.
 	BgHiWhite   Background = 107 // Print high intensity white background.
+)
 
-	// Text formats
+const (
 	Regular   Format = 0 // Reset all attributes.
 	Bold      Format = 1 // Print bold text.
 	Dim       Format = 2 // Print dim text.
