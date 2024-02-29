@@ -95,14 +95,15 @@ func (color *Color) Print(input string, data ...any) (int, error) {
 	if color.length > len(input) {
 		return 0, errPrintLengthGreaterThanInput
 	}
-	startWrap, endWrap := color.wrap(color.format, color.foreground, color.background)
+	openWrapper := fmt.Sprintf("\x1b[%v;%v;%vm", color.format, color.foreground, color.background)
+	closeWrapper := "\x1b[0m"
 	if color.length <= 0 {
 		colorText := fmt.Sprintf(input, data...)
-		return fmt.Fprintf(color.writer, "%s%s%s", startWrap, colorText, endWrap)
+		return fmt.Fprintf(color.writer, "%s%s%s", openWrapper, colorText, closeWrapper)
 	}
 	colorText := input[:color.length]
 	plainText := fmt.Sprintf(input[color.length:], data...)
-	return fmt.Fprintf(color.writer, "%s%s%s%s", startWrap, colorText, endWrap, plainText)
+	return fmt.Fprintf(color.writer, "%s%s%s%s", openWrapper, colorText, closeWrapper, plainText)
 }
 
 // Set writer, which must be implemented io.Writer interface.
@@ -134,10 +135,6 @@ func (color *Color) SetBackground(background Background) *Color {
 func (color *Color) SetLength(length int) *Color {
 	color.length = length
 	return color
-}
-
-func (color *Color) wrap(format Format, foreground Foreground, background Background) (string, string) {
-	return fmt.Sprintf("\x1b[%v;%v;%vm", format, foreground, background), "\x1b[0m"
 }
 
 // Create new color structure (writer, format, foreground, background, and length).
