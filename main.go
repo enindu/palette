@@ -143,8 +143,8 @@ func (color *Color) wrappers(foreground Foreground, background Background, forma
 // Create new color structure (writer, foreground, background, format, and length).
 //
 // Default writer is os.Stdout and default length is 0.
-func NewColor(foreground Foreground, background Background, format Format) *Color {
-	return &Color{
+func NewColor(foreground Foreground, background Background, format Format) Color {
+	return Color{
 		writer:     os.Stdout,
 		foreground: foreground,
 		background: background,
