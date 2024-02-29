@@ -23,6 +23,14 @@ import (
 )
 
 const (
+	Regular   Format = 0 // Reset all attributes.
+	Bold      Format = 1 // Print bold text.
+	Dim       Format = 2 // Print dim text.
+	Italic    Format = 3 // Print italic text. This will not work on some terminals.
+	Underline Format = 4 // Print underline text. This will not works on some terminals.
+)
+
+const (
 	FgRegular   Foreground = 39 // Reset foreground attributes.
 	FgBlack     Foreground = 30 // Print black foreground.
 	FgRed       Foreground = 31 // Print red foreground.
@@ -62,15 +70,10 @@ const (
 	BgHiWhite   Background = 107 // Print high intensity white background.
 )
 
-const (
-	Regular   Format = 0 // Reset all attributes.
-	Bold      Format = 1 // Print bold text.
-	Dim       Format = 2 // Print dim text.
-	Italic    Format = 3 // Print italic text. This will not work on some terminals.
-	Underline Format = 4 // Print underline text. This will not works on some terminals.
-)
-
 var errLengthGreaterThanInput error = errors.New("print: length is greater than input")
+
+// Format type to define text formats.
+type Format int
 
 // Foreground type to define foreground colors.
 type Foreground int
@@ -78,15 +81,12 @@ type Foreground int
 // Background type to define background colors.
 type Background int
 
-// Format type to define text formats.
-type Format int
-
 // Color type to define color structure.
 type Color struct {
 	writer     io.Writer
+	format     Format
 	foreground Foreground
 	background Background
-	format     Format
 	length     int
 }
 
@@ -95,7 +95,7 @@ func (color *Color) Print(input string, data ...any) (int, error) {
 	if color.length > len(input) {
 		return 0, errLengthGreaterThanInput
 	}
-	start, end := color.wrappers(color.foreground, color.background, color.format)
+	start, end := color.wrappers(color.format, color.foreground, color.background)
 	if color.length <= 0 {
 		colorText := fmt.Sprintf(input, data...)
 		return fmt.Fprintf(color.writer, "%s%s%s", start, colorText, end)
@@ -111,6 +111,12 @@ func (color *Color) SetWriter(writer io.Writer) *Color {
 	return color
 }
 
+// Set format, which must be a type of Format.
+func (color *Color) SetFormat(format Format) *Color {
+	color.format = format
+	return color
+}
+
 // Set foreground, which must be a type of Foreground.
 func (color *Color) SetForeground(foreground Foreground) *Color {
 	color.foreground = foreground
@@ -123,12 +129,6 @@ func (color *Color) SetBackground(background Background) *Color {
 	return color
 }
 
-// Set format, which must be a type of Format.
-func (color *Color) SetFormat(format Format) *Color {
-	color.format = format
-	return color
-}
-
 // Set length, which must be a type of int. If length <= 0, it considered length is
 // disabled.
 func (color *Color) SetLength(length int) *Color {
@@ -136,19 +136,19 @@ func (color *Color) SetLength(length int) *Color {
 	return color
 }
 
-func (color *Color) wrappers(foreground Foreground, background Background, format Format) (string, string) {
-	return fmt.Sprintf("\x1b[%v;%v;%vm", foreground, background, format), "\x1b[0m"
+func (color *Color) wrappers(format Format, foreground Foreground, background Background) (string, string) {
+	return fmt.Sprintf("\x1b[%v;%v;%vm", format, foreground, background), "\x1b[0m"
 }
 
-// Create new color structure (writer, foreground, background, format, and length).
+// Create new color structure (writer, format, foreground, background, and length).
 //
 // Default writer is os.Stdout and default length is 0.
-func NewColor(foreground Foreground, background Background, format Format) Color {
-	return Color{
+func NewColor(format Format, foreground Foreground, background Background) *Color {
+	return &Color{
 		writer:     os.Stdout,
+		format:     format,
 		foreground: foreground,
 		background: background,
-		format:     format,
 		length:     0,
 	}
 }

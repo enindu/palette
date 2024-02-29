@@ -4,6 +4,12 @@ Palette is a simple library designed to add colors to terminal output. Since Pal
 
 ## FEATURES
 
+- Supports 4 formats.
+    - Bold
+    - Dim
+    - Italic
+    - Underline
+
 - Supports 32 colors.
     - Foreground: black/high intensity black
     - Foreground: red/high intensity red
@@ -21,12 +27,6 @@ Palette is a simple library designed to add colors to terminal output. Since Pal
     - Background: magenta/high intensity magenta
     - Background: cyan/high intensity cyan
     - Background: white/high intensity white
-
-- Supports 4 formats.
-    - Bold
-    - Dim
-    - Italic
-    - Underline
 
 - You can manually set the output writer. The writer must implement the `io.Writer` interface. The default output writer is `os.Stdout`.
 
@@ -59,7 +59,7 @@ palette.NewColor(palette.FgRed, palette.BgRegular, palette.Bold).SetWriter(os.St
 You can add Palette to your application using the `go get` command.
 
 ```
-go get -u github.com/enindu/palette
+go get github.com/enindu/palette
 ```
 
 ## USAGE
@@ -75,6 +75,6 @@ import (
     "github.com/enindu/palette"
 )
 
-erro := palette.NewColor(palette.FgRed, palette.BgRegular, palette.Bold).SetWriter(os.Stderr).SetLength(4)
+erro := palette.NewColor(palette.Bold, palette.FgRed, palette.BgRegular).SetWriter(os.Stderr).SetLength(4)
 erro.Print("erro this is an error message")
 ```
