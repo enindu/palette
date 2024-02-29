@@ -69,15 +69,6 @@ const (
 	BgHiWhite   Background = 107 // Print high intensity white background.
 )
 
-// Format type to define text formats.
-type Format int
-
-// Foreground type to define foreground colors.
-type Foreground int
-
-// Background type to define background colors.
-type Background int
-
 // Color type to define color structure.
 type Color struct {
 	writer     io.Writer
@@ -86,6 +77,15 @@ type Color struct {
 	background Background
 	length     int
 }
+
+// Format type to define text formats.
+type Format int
+
+// Foreground type to define foreground colors.
+type Foreground int
+
+// Background type to define background colors.
+type Background int
 
 // Print input to writer.
 func (color *Color) Print(input string, data ...any) (int, error) {
