@@ -70,7 +70,7 @@ const (
 	BgHiWhite   Background = 107 // Print high intensity white background.
 )
 
-var errPrintLengthGreaterThanInput error = errors.New("print: length is greater than input")
+var errorPrintLengthGreaterThanInput error = errors.New("print: length is greater than input")
 
 // Format type to define text formats.
 type Format int
@@ -93,7 +93,7 @@ type Color struct {
 // Print input to writer.
 func (color *Color) Print(input string, data ...any) (int, error) {
 	if color.length > len(input) {
-		return 0, errPrintLengthGreaterThanInput
+		return 0, errorPrintLengthGreaterThanInput
 	}
 	openWrapper := fmt.Sprintf("\x1b[%v;%v;%vm", color.format, color.foreground, color.background)
 	closeWrapper := "\x1b[0m"
