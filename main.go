@@ -89,15 +89,22 @@ type Background int
 
 // Print input to writer.
 func (color *Color) Print(input string, data ...any) (int, error) {
+	// If length is greater than input, return an error.
 	if color.length > len(input) {
 		return 0, fmt.Errorf("print: length is greater than input")
 	}
+
+	// Create wrappers.
 	openWrapper := fmt.Sprintf("\x1b[%v;%v;%vm", color.format, color.foreground, color.background)
 	closeWrapper := "\x1b[0m"
+
+	// If length is lesser than 0 or equals to 0 (Disabled), print fully colored text.
 	if color.length <= 0 {
 		colorText := fmt.Sprintf(input, data...)
 		return fmt.Fprintf(color.writer, "%s%s%s", openWrapper, colorText, closeWrapper)
 	}
+
+	// Print partially colored text.
 	colorText := input[:color.length]
 	plainText := fmt.Sprintf(input[color.length:], data...)
 	return fmt.Fprintf(color.writer, "%s%s%s%s", openWrapper, colorText, closeWrapper, plainText)
