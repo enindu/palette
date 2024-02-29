@@ -70,7 +70,7 @@ const (
 	BgHiWhite   Background = 107 // Print high intensity white background.
 )
 
-var errLengthGreaterThanInput error = errors.New("print: length is greater than input")
+var errPrintLengthGreaterThanInput error = errors.New("print: length is greater than input")
 
 // Format type to define text formats.
 type Format int
@@ -93,16 +93,16 @@ type Color struct {
 // Print input to writer.
 func (color *Color) Print(input string, data ...any) (int, error) {
 	if color.length > len(input) {
-		return 0, errLengthGreaterThanInput
+		return 0, errPrintLengthGreaterThanInput
 	}
-	start, end := color.wrappers(color.format, color.foreground, color.background)
+	startWrap, endWrap := color.wrap(color.format, color.foreground, color.background)
 	if color.length <= 0 {
 		colorText := fmt.Sprintf(input, data...)
-		return fmt.Fprintf(color.writer, "%s%s%s", start, colorText, end)
+		return fmt.Fprintf(color.writer, "%s%s%s", startWrap, colorText, endWrap)
 	}
 	colorText := input[:color.length]
 	plainText := fmt.Sprintf(input[color.length:], data...)
-	return fmt.Fprintf(color.writer, "%s%s%s%s", start, colorText, end, plainText)
+	return fmt.Fprintf(color.writer, "%s%s%s%s", startWrap, colorText, endWrap, plainText)
 }
 
 // Set writer, which must be implemented io.Writer interface.
@@ -136,7 +136,7 @@ func (color *Color) SetLength(length int) *Color {
 	return color
 }
 
-func (color *Color) wrappers(format Format, foreground Foreground, background Background) (string, string) {
+func (color *Color) wrap(format Format, foreground Foreground, background Background) (string, string) {
 	return fmt.Sprintf("\x1b[%v;%v;%vm", format, foreground, background), "\x1b[0m"
 }
 
