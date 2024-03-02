@@ -22,73 +22,69 @@ import (
 )
 
 const (
-	Regular   Format = 0 // Reset all attributes.
-	Bold      Format = 1 // Print bold text.
-	Dim       Format = 2 // Print dim text.
-	Italic    Format = 3 // Print italic text. This will not work on some terminals.
-	Underline Format = 4 // Print underline text. This will not works on some terminals.
+	Regular   format = 0 // Reset all attributes.
+	Bold      format = 1 // Print bold text.
+	Dim       format = 2 // Print dim text.
+	Italic    format = 3 // Print italic text. This will not work on some terminals.
+	Underline format = 4 // Print underline text. This will not works on some terminals.
 )
 
 const (
-	FgRegular   Foreground = 39 // Reset foreground attributes.
-	FgBlack     Foreground = 30 // Print black foreground.
-	FgRed       Foreground = 31 // Print red foreground.
-	FgGreen     Foreground = 32 // Print green foreground.
-	FgYellow    Foreground = 33 // Print yellow foreground.
-	FgBlue      Foreground = 34 // Print blue foreground.
-	FgMagenta   Foreground = 35 // Print magenta foreground.
-	FgCyan      Foreground = 36 // Print cyan foreground.
-	FgWhite     Foreground = 37 // Print white foreground.
-	FgHiBlack   Foreground = 90 // Print high intensity black foreground.
-	FgHiRed     Foreground = 91 // Print high intensity red foreground.
-	FgHiGreen   Foreground = 92 // Print high intensity green foreground.
-	FgHiYellow  Foreground = 93 // Print high intensity yellow foreground.
-	FgHiBlue    Foreground = 94 // Print high intensity blue foreground.
-	FgHiMagenta Foreground = 95 // Print high intensity magenta foreground.
-	FgHiCyan    Foreground = 96 // Print high intensity cyan foreground.
-	FgHiWhite   Foreground = 97 // Print high intensity white foreground.
+	FgRegular   foreground = 39 // Reset foreground attributes.
+	FgBlack     foreground = 30 // Print black foreground.
+	FgRed       foreground = 31 // Print red foreground.
+	FgGreen     foreground = 32 // Print green foreground.
+	FgYellow    foreground = 33 // Print yellow foreground.
+	FgBlue      foreground = 34 // Print blue foreground.
+	FgMagenta   foreground = 35 // Print magenta foreground.
+	FgCyan      foreground = 36 // Print cyan foreground.
+	FgWhite     foreground = 37 // Print white foreground.
+	FgHiBlack   foreground = 90 // Print high intensity black foreground.
+	FgHiRed     foreground = 91 // Print high intensity red foreground.
+	FgHiGreen   foreground = 92 // Print high intensity green foreground.
+	FgHiYellow  foreground = 93 // Print high intensity yellow foreground.
+	FgHiBlue    foreground = 94 // Print high intensity blue foreground.
+	FgHiMagenta foreground = 95 // Print high intensity magenta foreground.
+	FgHiCyan    foreground = 96 // Print high intensity cyan foreground.
+	FgHiWhite   foreground = 97 // Print high intensity white foreground.
 )
 
 const (
-	BgRegular   Background = 49  // Reset background attributes.
-	BgBlack     Background = 40  // Print black background.
-	BgRed       Background = 41  // Print red background.
-	BgGreen     Background = 42  // Print green background.
-	BgYellow    Background = 43  // Print yellow background.
-	BgBlue      Background = 44  // Print blue background.
-	BgMagenta   Background = 45  // Print magenta background.
-	BgCyan      Background = 46  // Print cyan background.
-	BgWhite     Background = 47  // Print white background.
-	BgHiBlack   Background = 100 // Print high intensity black background.
-	BgHiRed     Background = 101 // Print high intensity red background.
-	BgHiGreen   Background = 102 // Print high intensity green background.
-	BgHiYellow  Background = 103 // Print high intensity yellow background.
-	BgHiBlue    Background = 104 // Print high intensity blue background.
-	BgHiMagenta Background = 105 // Print high intensity magenta background.
-	BgHiCyan    Background = 106 // Print high intensity cyan background.
-	BgHiWhite   Background = 107 // Print high intensity white background.
+	BgRegular   background = 49  // Reset background attributes.
+	BgBlack     background = 40  // Print black background.
+	BgRed       background = 41  // Print red background.
+	BgGreen     background = 42  // Print green background.
+	BgYellow    background = 43  // Print yellow background.
+	BgBlue      background = 44  // Print blue background.
+	BgMagenta   background = 45  // Print magenta background.
+	BgCyan      background = 46  // Print cyan background.
+	BgWhite     background = 47  // Print white background.
+	BgHiBlack   background = 100 // Print high intensity black background.
+	BgHiRed     background = 101 // Print high intensity red background.
+	BgHiGreen   background = 102 // Print high intensity green background.
+	BgHiYellow  background = 103 // Print high intensity yellow background.
+	BgHiBlue    background = 104 // Print high intensity blue background.
+	BgHiMagenta background = 105 // Print high intensity magenta background.
+	BgHiCyan    background = 106 // Print high intensity cyan background.
+	BgHiWhite   background = 107 // Print high intensity white background.
 )
 
-// Color type to define color structure.
-type Color struct {
+type color struct {
 	writer     io.Writer
-	format     Format
-	foreground Foreground
-	background Background
+	format     format
+	foreground foreground
+	background background
 	length     int
 }
 
-// Format type to define text formats.
-type Format int
+type format int
 
-// Foreground type to define foreground colors.
-type Foreground int
+type foreground int
 
-// Background type to define background colors.
-type Background int
+type background int
 
 // Print input to writer.
-func (color *Color) Print(input string, data ...any) (int, error) {
+func (color *color) Print(input string, data ...any) (int, error) {
 	if color.length > len(input) {
 		return 0, fmt.Errorf("print: length is greater than input")
 	}
@@ -104,32 +100,32 @@ func (color *Color) Print(input string, data ...any) (int, error) {
 }
 
 // Set writer, which must be implemented io.Writer interface.
-func (color *Color) SetWriter(writer io.Writer) *Color {
+func (color *color) SetWriter(writer io.Writer) *color {
 	color.writer = writer
 	return color
 }
 
 // Set format, which must be a type of Format.
-func (color *Color) SetFormat(format Format) *Color {
+func (color *color) SetFormat(format format) *color {
 	color.format = format
 	return color
 }
 
 // Set foreground, which must be a type of Foreground.
-func (color *Color) SetForeground(foreground Foreground) *Color {
+func (color *color) SetForeground(foreground foreground) *color {
 	color.foreground = foreground
 	return color
 }
 
 // Set background, which must be a type of Background.
-func (color *Color) SetBackground(background Background) *Color {
+func (color *color) SetBackground(background background) *color {
 	color.background = background
 	return color
 }
 
 // Set length, which must be a type of int. If length <= 0, it considered length is
 // disabled.
-func (color *Color) SetLength(length int) *Color {
+func (color *color) SetLength(length int) *color {
 	color.length = length
 	return color
 }
@@ -137,8 +133,8 @@ func (color *Color) SetLength(length int) *Color {
 // Create new color structure (writer, format, foreground, background, and length).
 //
 // Default writer is os.Stdout and default length is 0.
-func NewColor(format Format, foreground Foreground, background Background) *Color {
-	return &Color{
+func NewColor(format format, foreground foreground, background background) *color {
+	return &color{
 		writer:     os.Stdout,
 		format:     format,
 		foreground: foreground,
