@@ -32,7 +32,7 @@ Palette is a simple library designed to add colors to terminal output. Since Pal
 
 ```go
 color := palette.
-    NewColor(palette.FgRed, palette.BgRegular, palette.Bold).
+    NewColor(palette.Bold, palette.FGRed, palette.BGRegular).
     SetWriter(os.Stderr)
 
 // This message will use "os.Stderr" as the writer
@@ -43,7 +43,7 @@ color.Print("erro this is an error message")
 
 ```go
 color := palette.
-    NewColor(palette.FgRed, palette.BgRegular, palette.Bold).
+    NewColor(palette.Bold, palette.FGRed, palette.BGRegular).
     SetLength(4)
 
 // Only "erro" will be colored
@@ -54,7 +54,7 @@ color.Print("erro this is an error message")
 
 ```go
 palette.
-    NewColor(palette.FgRed, palette.BgRegular, palette.Bold).
+    NewColor(palette.Bold, palette.FGRed, palette.BGRegular).
     SetWriter(os.Stderr).
     SetLength(4).
     Print("erro this is an error message")
@@ -82,7 +82,7 @@ import (
 )
 
 erro := palette.
-    NewColor(palette.Bold, palette.FgRed, palette.BgRegular).
+    NewColor(palette.Bold, palette.FGRed, palette.BGRegular).
     SetWriter(os.Stderr).
     SetLength(4)
 
