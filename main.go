@@ -66,7 +66,7 @@ const (
 	BGHiWhite   background = 107 // Print high intensity white background.
 )
 
-// Create new color structure (writer, format, foreground, background, and length).
+// Create new color structure.
 //
 // Default writer is os.Stdout and default length is 0.
 func NewColor(format format, foreground foreground, background background) *color {
