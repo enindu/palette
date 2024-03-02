@@ -1,17 +1,23 @@
 // This file is part of Palette.
 // Copyright (C) 2024 Enindu Alahapperuma
 //
-// Palette is free software: you can redistribute it and/or modify it under the terms
-// of the GNU General Public License as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
+// Palette is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
 //
 // Palette is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-// PARTICULAR PURPOSE. See the GNU General Public License for more details.
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License along with
 // Palette. If not, see <https://www.gnu.org/licenses/>.
 
+// Package palette is a simple library to add colors to the terminal output.
+// Since this package utilizes ANSI colors, it will works only on ANSI supported
+// terminals. See [documentation] for more information.
+//
+// [documentation]: https://github.com/enindu/palette
 package palette
 
 import (
@@ -66,9 +72,13 @@ const (
 	BGHiWhite   background = 107 // Print high intensity white background.
 )
 
-// Create new color structure.
+// This is a first class function of the palette package. It takes
+// format(palette.format), foreground(palette.foreground), and
+// background(palette.background) as parameters and returns a pointer to the
+// palette.color struct, which can use to invoke palette.color struct methods.
 //
-// Default writer is os.Stdout and default length is 0.
+// This function is used to create and configure a new color, using parameter
+// and default values.
 func NewColor(format format, foreground foreground, background background) *color {
 	return &color{
 		writer:     os.Stdout,
