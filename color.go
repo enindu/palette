@@ -49,19 +49,19 @@ func (color *color) SetWriter(writer io.Writer) *color {
 	return color
 }
 
-// Set format, which must be a type of Format.
+// Set format, which must be a type of format.
 func (color *color) SetFormat(format format) *color {
 	color.format = format
 	return color
 }
 
-// Set foreground, which must be a type of Foreground.
+// Set foreground, which must be a type of foreground.
 func (color *color) SetForeground(foreground foreground) *color {
 	color.foreground = foreground
 	return color
 }
 
-// Set background, which must be a type of Background.
+// Set background, which must be a type of background.
 func (color *color) SetBackground(background background) *color {
 	color.background = background
 	return color
