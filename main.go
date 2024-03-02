@@ -27,43 +27,43 @@ const (
 )
 
 const (
-	FgRegular   foreground = 39 // Reset foreground attributes.
-	FgBlack     foreground = 30 // Print black foreground.
-	FgRed       foreground = 31 // Print red foreground.
-	FgGreen     foreground = 32 // Print green foreground.
-	FgYellow    foreground = 33 // Print yellow foreground.
-	FgBlue      foreground = 34 // Print blue foreground.
-	FgMagenta   foreground = 35 // Print magenta foreground.
-	FgCyan      foreground = 36 // Print cyan foreground.
-	FgWhite     foreground = 37 // Print white foreground.
-	FgHiBlack   foreground = 90 // Print high intensity black foreground.
-	FgHiRed     foreground = 91 // Print high intensity red foreground.
-	FgHiGreen   foreground = 92 // Print high intensity green foreground.
-	FgHiYellow  foreground = 93 // Print high intensity yellow foreground.
-	FgHiBlue    foreground = 94 // Print high intensity blue foreground.
-	FgHiMagenta foreground = 95 // Print high intensity magenta foreground.
-	FgHiCyan    foreground = 96 // Print high intensity cyan foreground.
-	FgHiWhite   foreground = 97 // Print high intensity white foreground.
+	FGRegular   foreground = 39 // Reset foreground attributes.
+	FGBlack     foreground = 30 // Print black foreground.
+	FGRed       foreground = 31 // Print red foreground.
+	FGGreen     foreground = 32 // Print green foreground.
+	FGYellow    foreground = 33 // Print yellow foreground.
+	FGBlue      foreground = 34 // Print blue foreground.
+	FGMagenta   foreground = 35 // Print magenta foreground.
+	FGCyan      foreground = 36 // Print cyan foreground.
+	FGWhite     foreground = 37 // Print white foreground.
+	FGHiBlack   foreground = 90 // Print high intensity black foreground.
+	FGHiRed     foreground = 91 // Print high intensity red foreground.
+	FGHiGreen   foreground = 92 // Print high intensity green foreground.
+	FGHiYellow  foreground = 93 // Print high intensity yellow foreground.
+	FGHiBlue    foreground = 94 // Print high intensity blue foreground.
+	FGHiMagenta foreground = 95 // Print high intensity magenta foreground.
+	FGHiCyan    foreground = 96 // Print high intensity cyan foreground.
+	FGHiWhite   foreground = 97 // Print high intensity white foreground.
 )
 
 const (
-	BgRegular   background = 49  // Reset background attributes.
-	BgBlack     background = 40  // Print black background.
-	BgRed       background = 41  // Print red background.
-	BgGreen     background = 42  // Print green background.
-	BgYellow    background = 43  // Print yellow background.
-	BgBlue      background = 44  // Print blue background.
-	BgMagenta   background = 45  // Print magenta background.
-	BgCyan      background = 46  // Print cyan background.
-	BgWhite     background = 47  // Print white background.
-	BgHiBlack   background = 100 // Print high intensity black background.
-	BgHiRed     background = 101 // Print high intensity red background.
-	BgHiGreen   background = 102 // Print high intensity green background.
-	BgHiYellow  background = 103 // Print high intensity yellow background.
-	BgHiBlue    background = 104 // Print high intensity blue background.
-	BgHiMagenta background = 105 // Print high intensity magenta background.
-	BgHiCyan    background = 106 // Print high intensity cyan background.
-	BgHiWhite   background = 107 // Print high intensity white background.
+	BGRegular   background = 49  // Reset background attributes.
+	BGBlack     background = 40  // Print black background.
+	BGRed       background = 41  // Print red background.
+	BGGreen     background = 42  // Print green background.
+	BGYellow    background = 43  // Print yellow background.
+	BGBlue      background = 44  // Print blue background.
+	BGMagenta   background = 45  // Print magenta background.
+	BGCyan      background = 46  // Print cyan background.
+	BGWhite     background = 47  // Print white background.
+	BGHiBlack   background = 100 // Print high intensity black background.
+	BGHiRed     background = 101 // Print high intensity red background.
+	BGHiGreen   background = 102 // Print high intensity green background.
+	BGHiYellow  background = 103 // Print high intensity yellow background.
+	BGHiBlue    background = 104 // Print high intensity blue background.
+	BGHiMagenta background = 105 // Print high intensity magenta background.
+	BGHiCyan    background = 106 // Print high intensity cyan background.
+	BGHiWhite   background = 107 // Print high intensity white background.
 )
 
 // Create new color structure (writer, format, foreground, background, and length).
