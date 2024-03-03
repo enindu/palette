@@ -75,12 +75,12 @@ const (
 // This is a first class function of the palette package. It takes
 // format(palette.format), foreground(palette.foreground), and
 // background(palette.background) as parameters and returns a pointer to the
-// palette.color struct, which can use to invoke palette.color struct methods.
+// palette.Color struct, which can use to invoke palette.Color struct methods.
 //
 // This function is used to create and configure a new color, using parameter
 // and default values.
-func NewColor(format format, foreground foreground, background background) *color {
-	return &color{
+func NewColor(format format, foreground foreground, background background) *Color {
+	return &Color{
 		writer:     os.Stdout,
 		format:     format,
 		foreground: foreground,
