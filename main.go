@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License along with
 // Palette. If not, see <https://www.gnu.org/licenses/>.
 
-// Package palette is a simple library to add colors to the terminal output.
+// Package "palette" is a simple library to add colors to the terminal output.
 // Since this package utilizes ANSI colors, it will works only on ANSI supported
 // terminals. See [documentation] for more information.
 //
@@ -72,10 +72,11 @@ const (
 	BGHiWhite   background = 107 // Print high intensity white background.
 )
 
-// This is a first class function of the palette package. It takes
-// format(palette.format), foreground(palette.foreground), and
-// background(palette.background) as parameters and returns a pointer to the
-// palette.Color struct, which can use to invoke palette.Color struct methods.
+// This is a first class function of the "palette" package. It takes
+// "format(palette.format)", "foreground(palette.foreground)", and
+// "background(palette.background)" as parameters and returns a pointer to the
+// "palette.Color" struct, which can use to invoke "palette.Color" struct
+// methods.
 //
 // This function is used to create and configure a new color, using parameter
 // and default values.

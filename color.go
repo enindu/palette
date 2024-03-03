@@ -28,15 +28,16 @@ type Color struct {
 	length     int
 }
 
-// This is a method of the palette.Color struct. It takes input(string) and
-// ...any as parameters and returns number of bytes written and an error if any
-// error occurs.
+// This is a method of the "palette.Color" struct. It takes "input(string)" and
+// "...any" as parameters and returns number of bytes written and an error if
+// any error occurs.
 //
 // This method is used to print the formatted input data to the
-// palette.Color.writer. If the palette.Color.length is greater than the input
-// length, this method will returns an error. If the palette.Color.length is
-// equals or less than zero, which means the palette.Color.length is disabled,
-// this method will prints the entire formatted text in color.
+// "palette.Color.writer". If the "palette.Color.length" is greater than the
+// input length, this method will returns an error. If the
+// "palette.Color.length" is equals or less than zero, which means the
+// "palette.Color.length" is disabled, this method will prints the entire
+// formatted text in color.
 func (color *Color) Print(input string, data ...any) (int, error) {
 	if color.length > len(input) {
 		return 0, fmt.Errorf("print: length is greater than input")
@@ -52,52 +53,53 @@ func (color *Color) Print(input string, data ...any) (int, error) {
 	return fmt.Fprintf(color.writer, "%s%s%s%s", openWrapper, colorText, closeWrapper, plainText)
 }
 
-// This is a method of the palette.Color struct. It takes writer(io.Writer) as
-// parameter and returns a pointer to palette.Color struct.
+// This is a method of the "palette.Color" struct. It takes "writer(io.Writer)"
+// as parameter and returns a pointer to the "palette.Color" struct.
 //
-// This method is used to update the palette.Color.writer field, using parameter
-// values.
+// This method is used to update the "palette.Color.writer" field, using
+// parameter values.
 func (color *Color) SetWriter(writer io.Writer) *Color {
 	color.writer = writer
 	return color
 }
 
-// This is a method of the palette.Color struct. It takes format(palette.format)
-// as parameter and returns a pointer to palette.Color struct.
+// This is a method of the "palette.Color" struct. It takes
+// "format(palette.format)" as parameter and returns a pointer to the
+// "palette.Color" struct.
 //
-// This method is used to update the palette.Color.format field, using parameter
-// values.
+// This method is used to update the "palette.Color.format" field, using
+// parameter values.
 func (color *Color) SetFormat(format format) *Color {
 	color.format = format
 	return color
 }
 
-// This is a method of the palette.Color struct. It takes
-// foreground(palette.foreground) as parameter and returns a pointer to
-// palette.Color struct.
+// This is a method of the "palette.Color" struct. It takes
+// "foreground(palette.foreground)" as parameter and returns a pointer to the
+// "palette.Color" struct.
 //
-// This method is used to update the palette.Color.foreground field, using
+// This method is used to update the "palette.Color.foreground" field, using
 // parameter values.
 func (color *Color) SetForeground(foreground foreground) *Color {
 	color.foreground = foreground
 	return color
 }
 
-// This is a method of the palette.Color struct. It takes
-// background(palette.background) as parameter and returns a pointer to
-// palette.Color struct.
+// This is a method of the "palette.Color" struct. It takes
+// "background(palette.background)" as parameter and returns a pointer to the
+// "palette.Color" struct.
 //
-// This method is used to update the palette.Color.background field, using
+// This method is used to update the "palette.Color.background" field, using
 // parameter values.
 func (color *Color) SetBackground(background background) *Color {
 	color.background = background
 	return color
 }
 
-// This is a method of the palette.Color struct. It takes length(int) as
-// parameter and returns a pointer to palette.Color struct.
+// This is a method of the "palette.Color" struct. It takes "length(int)" as
+// parameter and returns a pointer to the "palette.Color" struct.
 //
-// This method is used to update the palette.Color.length field, using
+// This method is used to update the "palette.Color.length" field, using
 // parameter values.
 func (color *Color) SetLength(length int) *Color {
 	color.length = length
