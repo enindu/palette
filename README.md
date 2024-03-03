@@ -1,66 +1,17 @@
-# PALETTE
+# Palette
 
-Palette is a simple library designed to add colors to terminal output. Since Palette utilizes ANSI colors, it will only function on terminals that support ANSI.
+Palette is a simple library to add ANSI colors to terminal output. See [documentation](https://pkg.go.dev/github.com/enindu/palette) for more information.
 
-## FEATURES
+## Features
 
-- Supports 4 formats.
-    - Bold
-    - Dim
-    - Italic
-    - Underline
-
-- Supports 32 colors.
-    - Foreground: black/high intensity black
-    - Foreground: red/high intensity red
-    - Foreground: green/high intensity green
-    - Foreground: yellow/high intensity yellow
-    - Foreground: blue/high intensity blue
-    - Foreground: magenta/high intensity magenta
-    - Foreground: cyan/high intensity cyan
-    - Foreground: white/high intensity white
-    - Background: black/high intensity black
-    - Background: red/high intensity red
-    - Background: green/high intensity green
-    - Background: yellow/high intensity yellow
-    - Background: blue/high intensity blue
-    - Background: magenta/high intensity magenta
-    - Background: cyan/high intensity cyan
-    - Background: white/high intensity white
-
-- You can manually set the output writer. The writer must implement the `io.Writer` interface. The default output writer is `os.Stdout`.
-
-```go
-color := palette.
-    NewColor(palette.Bold, palette.FGRed, palette.BGRegular).
-    SetWriter(os.Stderr)
-
-// This message will use "os.Stderr" as the writer
-color.Print("erro this is an error message")
-```
-
-- You can set the text length that must be colored. The default length is `0`, which means the full text will be colored.
-
-```go
-color := palette.
-    NewColor(palette.Bold, palette.FGRed, palette.BGRegular).
-    SetLength(4)
-
-// Only "erro" will be colored
-color.Print("erro this is an error message")
-```
-
+- Supports 4 formats and 32 colors.
+- You can manually set output writer. Writer must implements `io.Writer` interface. Default writer is `os.Stdout`.
+- You can manually set text length that must be used by `palette.(printer *Printer).Write()` method. Default length is `0`, which means entire text will be used by `palette.(printer *Printer).Write()` method.
 - You can chain everything in one line.
 
-```go
-palette.
-    NewColor(palette.Bold, palette.FGRed, palette.BGRegular).
-    SetWriter(os.Stderr).
-    SetLength(4).
-    Print("erro this is an error message")
-```
+See usage for more information.
 
-## INSTALL
+## Install
 
 You can add Palette to your application using the `go get` command.
 
@@ -68,7 +19,7 @@ You can add Palette to your application using the `go get` command.
 go get github.com/enindu/palette
 ```
 
-## USAGE
+## Usage
 
 Here's an example of how to use Palette.
 
@@ -81,10 +32,12 @@ import (
     "github.com/enindu/palette"
 )
 
-erro := palette.
-    NewColor(palette.Bold, palette.FGRed, palette.BGRegular).
-    SetWriter(os.Stderr).
-    SetLength(4)
+func main() {
+    erro := palette.
+        NewPrinter(palette.FormatBold, palette.ForegroundRed, palette.BackgroundRegular).
+        SetWriter(os.Stderr).
+        SetLength(4)
 
-erro.Print("erro this is an error message")
+    erro.Write("erro this is an error message\n")
+}
 ```
