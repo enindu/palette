@@ -77,8 +77,7 @@ func (printer *Printer) SetBackground(background Background) *Printer {
 // SetLength sets [Printer].length using length. It returns a pointer to
 // [Printer].
 //
-// length<=0 considered [Printer].length is disabled and entire text will be
-// written as in [Printer] configurations.
+// If length<=0, it considered [Printer].length is disabled.
 func (printer *Printer) SetLength(length int) *Printer {
 	printer.length = length
 	return printer
