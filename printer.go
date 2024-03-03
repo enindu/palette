@@ -22,7 +22,7 @@ import (
 )
 
 // Printer represents a new printer with specified fields. A non-zero value
-// printer can be used to write text.
+// printer can be used to write.
 type Printer struct {
 	writer     io.Writer
 	format     Format
