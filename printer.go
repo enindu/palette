@@ -83,6 +83,54 @@ func (printer *Printer) SetLength(length int) *Printer {
 	return printer
 }
 
+// NewPrinterSucc creates a new [Printer] with following fields for print success
+// mesaages. It returns a pointer to [Printer].
+//
+//   - [Printer].writer: default
+//   - [Printer].format: [FormatBold]
+//   - [Printer].foreground: [ForegroundGreen]
+//   - [Printer].background: [BackgroundRegular]
+//   - [Printer].lenght: 4
+func NewPrinterSucc() *Printer {
+	return NewPrinter(FormatBold, ForegroundGreen, BackgroundRegular).SetLength(4)
+}
+
+// NewPrinterInfo creates a new [Printer] with following fields for print
+// information mesaages. It returns a pointer to [Printer].
+//
+//   - [Printer].writer: default
+//   - [Printer].format: [FormatBold]
+//   - [Printer].foreground: [ForegroundBlue]
+//   - [Printer].background: [BackgroundRegular]
+//   - [Printer].lenght: 4
+func NewPrinterInfo() *Printer {
+	return NewPrinter(FormatBold, ForegroundBlue, BackgroundRegular).SetLength(4)
+}
+
+// NewPrinterWarn creates a new [Printer] with following fields for print warning
+// mesaages. It returns a pointer to [Printer].
+//
+//   - [Printer].writer: default
+//   - [Printer].format: [FormatBold]
+//   - [Printer].foreground: [ForegroundYellow]
+//   - [Printer].background: [BackgroundRegular]
+//   - [Printer].lenght: 4
+func NewPrinterWarn() *Printer {
+	return NewPrinter(FormatBold, ForegroundYellow, BackgroundRegular).SetLength(4)
+}
+
+// NewPrinterErro creates a new [Printer] with following fields for print error
+// mesaages. It returns a pointer to [Printer].
+//
+//   - [Printer].writer: os.Stderr
+//   - [Printer].format: [FormatBold]
+//   - [Printer].foreground: [ForegroundRed]
+//   - [Printer].background: [BackgroundRegular]
+//   - [Printer].lenght: 4
+func NewPrinterErro() *Printer {
+	return NewPrinter(FormatBold, ForegroundRed, BackgroundRegular).SetWriter(os.Stderr).SetLength(4)
+}
+
 // NewPrinter creates a new [Printer] using format, foreground, and background.
 // It return a pointer to [Printer].
 func NewPrinter(format Format, foreground Foreground, background Background) *Printer {

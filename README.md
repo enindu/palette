@@ -6,7 +6,7 @@ Palette is a simple library to add ANSI colors to terminal output. See [document
 
 - Supports 4 formats and 32 colors.
 - You can manually set output writer. Writer must implements `io.Writer` interface. Default writer is `os.Stdout`.
-- You can manually set text length to written as in `Printer` configurations. Default length is `0`, which means entire text will be written as in `Printer` configurations.
+- You can manually set text length to written as in `Printer` configurations. Default length is 0, which means entire text will be written as in `Printer` configurations.
 - You can chain everything in one line.
 
 See usage for more information.
@@ -37,7 +37,6 @@ func main() {
         NewPrinter(palette.FormatBold, palette.ForegroundRed, palette.BackgroundRegular).
         SetWriter(os.Stderr).
         SetLength(4)
-
-    erro.Write("erro this is an error message\n")
+    erro.Write("ERRO this is an error message.\n")
 }
 ```
