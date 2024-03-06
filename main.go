@@ -19,9 +19,6 @@
 // [repository]: https://github.com/enindu/palette
 package palette
 
-// Format represents a text format.
-type Format int
-
 const (
 	FormatRegular   Format = 0 // Reset format
 	FormatBold      Format = 1 // Bold format
@@ -29,9 +26,6 @@ const (
 	FormatItalic    Format = 3 // Italic format
 	FormatUnderline Format = 4 // Underline format
 )
-
-// Foreground represents a text foreground color.
-type Foreground int
 
 const (
 	ForegroundRegular   Foreground = 39 // Reset foreground
@@ -53,9 +47,6 @@ const (
 	ForegroundHiWhite   Foreground = 97 // High intensity white foreground
 )
 
-// Background represents a text background color.
-type Background int
-
 const (
 	BackgroundRegular   Background = 49  // Reset background
 	BackgroundBlack     Background = 40  // Black background
@@ -75,3 +66,12 @@ const (
 	BackgroundHiCyan    Background = 106 // High intensity cyan background
 	BackgroundHiWhite   Background = 107 // High intensity white background
 )
+
+// Format represents a text format.
+type Format int
+
+// Foreground represents a text foreground color.
+type Foreground int
+
+// Background represents a text background color.
+type Background int

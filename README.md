@@ -15,7 +15,7 @@ See usage for more information.
 
 You can add Palette to your application using the `go get` command.
 
-```
+```shell
 go get github.com/enindu/palette
 ```
 
