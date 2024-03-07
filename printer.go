@@ -122,7 +122,7 @@ func NewPrinterWarn() *Printer {
 // NewPrinterErro creates a new [Printer] with following fields for print error
 // mesaages. It returns a pointer to [Printer].
 //
-//   - [Printer].writer: os.Stderr
+//   - [Printer].writer: [os.Stderr]
 //   - [Printer].format: [FormatBold]
 //   - [Printer].foreground: [ForegroundRed]
 //   - [Printer].background: [BackgroundRegular]
