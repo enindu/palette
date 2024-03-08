@@ -17,31 +17,23 @@ package palette
 
 import (
 	"fmt"
+	"strings"
 )
 
 // Printer represents a new printer with specified fields. A non-zero printer
 // can be used to print.
 type Printer struct {
 	writer     Writer
-	format     Format
+	formats    []Format
 	foreground Foreground
 	background Background
-	length     int
 }
 
 // Print prints text to [Printer].writer using input and data. It returns number
 // of bytes written and any error encountered.
 func (printer *Printer) Print(input string, data ...any) (int, error) {
-	text := fmt.Sprintf(input, data...)
-	if printer.length > len(text) {
-		return 0, fmt.Errorf("Print: length is greater than text")
-	}
-	start := fmt.Sprintf("\x1b[%v;%v;%vm", printer.format, printer.foreground, printer.background)
-	end := "\x1b[0;0;0m"
-	if printer.length <= 0 {
-		return fmt.Fprintf(printer.writer, "%s%s%s", start, text, end)
-	}
-	return fmt.Fprintf(printer.writer, "%s%s%s%s", start, text[:printer.length], end, text[printer.length:])
+	text := printer.text(input, data...)
+	return fmt.Fprint(printer.writer, text)
 }
 
 // SetWriter sets [Printer].writer using writer. It returns a pointer to
@@ -51,10 +43,10 @@ func (printer *Printer) SetWriter(writer Writer) *Printer {
 	return printer
 }
 
-// SetFormat sets [Printer].format using format. It returns a pointer to
+// SetFormats sets [Printer].formats using formats. It returns a pointer to
 // [Printer].
-func (printer *Printer) SetFormat(format Format) *Printer {
-	printer.format = format
+func (printer *Printer) SetFormats(formats []Format) *Printer {
+	printer.formats = formats
 	return printer
 }
 
@@ -72,72 +64,99 @@ func (printer *Printer) SetBackground(background Background) *Printer {
 	return printer
 }
 
-// SetLength sets [Printer].length using length. It returns a pointer to
-// [Printer]. If length<=0, it considered [Printer].length is disabled.
-func (printer *Printer) SetLength(length int) *Printer {
-	printer.length = length
-	return printer
+func (printer *Printer) text(input string, data ...any) string {
+	start := printer.start()
+	end := printer.end()
+	text := fmt.Sprintf(input, data...)
+	if !strings.Contains(input, "\n") {
+		return fmt.Sprintf("%s%s%s", start, text, end)
+	}
+	lines := strings.Split(text, "\n")
+	length := len(lines) - 1
+	text = ""
+	for _, line := range lines[:length] {
+		text = fmt.Sprintf("%s%s%s%s\n", text, start, line, end)
+	}
+	return text
+}
+
+func (printer *Printer) start() string {
+	formats := ""
+	for _, format := range printer.formats {
+		formats = fmt.Sprintf("%v%v;", formats, format)
+	}
+	return fmt.Sprintf("\x1b[%v%v;%vm", formats, printer.foreground, printer.background)
+}
+
+func (printer *Printer) end() string {
+	return "\x1b[0m"
 }
 
 // NewPrinterSucc creates a new [Printer] to print success mesaages. It returns
 // a pointer to [Printer] with pre-defined values.
 //
 //   - [Printer].writer: [WriterRegular]
-//   - [Printer].format: [FormatBold]
+//   - [Printer].formats: [FormatBold]
 //   - [Printer].foreground: [ForegroundGreen]
 //   - [Printer].background: [BackgroundRegular]
-//   - [Printer].lenght: 4
 func NewPrinterSucc() *Printer {
-	return NewPrinter(FormatBold, ForegroundGreen, BackgroundRegular).SetLength(4)
+	formats := []Format{
+		FormatBold,
+	}
+	return NewPrinter(formats, ForegroundGreen, BackgroundRegular)
 }
 
 // NewPrinterInfo creates a new [Printer] to print information mesaages. It
 // returns a pointer to [Printer] with pre-defined values.
 //
 //   - [Printer].writer: [WriterRegular]
-//   - [Printer].format: [FormatBold]
+//   - [Printer].formats: [FormatBold]
 //   - [Printer].foreground: [ForegroundBlue]
 //   - [Printer].background: [BackgroundRegular]
-//   - [Printer].lenght: 4
 func NewPrinterInfo() *Printer {
-	return NewPrinter(FormatBold, ForegroundBlue, BackgroundRegular).SetLength(4)
+	formats := []Format{
+		FormatBold,
+	}
+	return NewPrinter(formats, ForegroundBlue, BackgroundRegular)
 }
 
 // NewPrinterWarn creates a new [Printer] to print warning mesaages. It returns
 // a pointer to [Printer] with pre-defined values.
 //
 //   - [Printer].writer: [WriterRegular]
-//   - [Printer].format: [FormatBold]
+//   - [Printer].formats: [FormatBold]
 //   - [Printer].foreground: [ForegroundYellow]
 //   - [Printer].background: [BackgroundRegular]
-//   - [Printer].lenght: 4
 func NewPrinterWarn() *Printer {
-	return NewPrinter(FormatBold, ForegroundYellow, BackgroundRegular).SetLength(4)
+	formats := []Format{
+		FormatBold,
+	}
+	return NewPrinter(formats, ForegroundYellow, BackgroundRegular)
 }
 
 // NewPrinterErro creates a new [Printer] to print error mesaages. It returns a
 // pointer to [Printer] with pre-defined values.
 //
 //   - [Printer].writer: [WriterError]
-//   - [Printer].format: [FormatBold]
+//   - [Printer].formats: [FormatBold]
 //   - [Printer].foreground: [ForegroundRed]
 //   - [Printer].background: [BackgroundRegular]
-//   - [Printer].lenght: 4
 func NewPrinterErro() *Printer {
-	return NewPrinter(FormatBold, ForegroundRed, BackgroundRegular).SetWriter(WriterError).SetLength(4)
+	formats := []Format{
+		FormatBold,
+	}
+	return NewPrinter(formats, ForegroundRed, BackgroundRegular).SetWriter(WriterError)
 }
 
-// NewPrinter creates a new [Printer] using format, foreground, and background.
+// NewPrinter creates a new [Printer] using formats, foreground, and background.
 // It returns a pointer to [Printer] with default values.
 //
 //   - [Printer].writer: [WriterRegular]
-//   - [Printer].length: 0
-func NewPrinter(format Format, foreground Foreground, background Background) *Printer {
+func NewPrinter(formats []Format, foreground Foreground, background Background) *Printer {
 	return &Printer{
 		writer:     WriterRegular,
-		format:     format,
+		formats:    formats,
 		foreground: foreground,
 		background: background,
-		length:     0,
 	}
 }
