@@ -25,14 +25,10 @@ Here's an example of how to use Palette.
 ```go
 package main
 
-import (
-    "os"
-
-    "github.com/enindu/palette"
-)
+import "github.com/enindu/palette"
 
 func main() {
-    formats := []palette.Format{
+	formats := []palette.Format{
 		palette.FormatBold,
 		palette.FormatUnderline,
 	}
