@@ -33,10 +33,10 @@ import (
 )
 
 func main() {
-    erro := palette.
-        NewPrinter(palette.FormatBold, palette.ForegroundRed, palette.BackgroundRegular).
-        SetWriter(os.Stderr).
-        SetLength(4)
-    erro.Write("ERRO this is an error message.\n")
+    printer := palette.
+		NewPrinter(palette.FormatBold, palette.ForegroundRed, palette.BackgroundRegular).
+		SetWriter(palette.WriterError).
+		SetLength(4)
+	printer.Print("ERRO this is an error message.\n")
 }
 ```

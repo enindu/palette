@@ -19,6 +19,11 @@
 // [repository]: https://github.com/enindu/palette
 package palette
 
+import (
+	"io"
+	"os"
+)
+
 const (
 	FormatRegular   Format = 0 // Reset format
 	FormatBold      Format = 1 // Bold format
@@ -66,6 +71,14 @@ const (
 	BackgroundHiCyan    Background = 106 // High intensity cyan background
 	BackgroundHiWhite   Background = 107 // High intensity white background
 )
+
+var (
+	WriterError   Writer = os.Stderr // Error writer.
+	WriterRegular Writer = os.Stdout // Regular writer.
+)
+
+// Writer represents an output writer.
+type Writer io.Writer
 
 // Format represents a text format.
 type Format int
