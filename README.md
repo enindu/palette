@@ -4,10 +4,10 @@ Palette is a simple library to add ANSI colors to terminal output. See [document
 
 ## Features
 
-- Supports 4 formats and 32 colors.
-- You can manually set output writer. Writer must implements `io.Writer` interface. Default writer is `os.Stdout`.
-- You can manually set text length to written as in `Printer` configurations. Default length is 0, which means entire text will be written as in `Printer` configurations.
-- You can chain everything in one line.
+- Supports 4 text formats and 32 text colors including foreground and background colors.
+- You can set output writer. Writer must implements `palette.Writer`, which is an alias to `io.Writer` interface. Default writer is `palette.WriterRegular`, which is also an alias to `os.Stdout`.
+- You can set text length to use `palette.Printer` configurations. Default length is 0, which means entire text will be used by `palette.Printer` configurations.
+- You can chain everything in one line using setters.
 
 See usage for more information.
 
