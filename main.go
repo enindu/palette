@@ -73,8 +73,8 @@ const (
 )
 
 var (
-	WriterError   Writer = os.Stderr // Error writer.
-	WriterRegular Writer = os.Stdout // Regular writer.
+	WriterError   Writer = os.Stderr // Error writer
+	WriterRegular Writer = os.Stdout // Regular writer
 )
 
 // Writer represents an output writer.
