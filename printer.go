@@ -92,6 +92,20 @@ func (printer *Printer) end() string {
 	return "\x1b[0m"
 }
 
+// NewPrinterRegu creates a new [Printer] to print regular mesaages. It returns
+// a pointer to [Printer] with pre-defined values.
+//
+//   - [Printer].writer: [WriterRegular]
+//   - [Printer].formats: [FormatRegular]
+//   - [Printer].foreground: [ForegroundRegular]
+//   - [Printer].background: [BackgroundRegular]
+func NewPrinterRegu() *Printer {
+	formats := []Format{
+		FormatRegular,
+	}
+	return NewPrinter(formats, ForegroundRegular, BackgroundRegular)
+}
+
 // NewPrinterSucc creates a new [Printer] to print success mesaages. It returns
 // a pointer to [Printer] with pre-defined values.
 //
