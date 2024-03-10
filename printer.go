@@ -45,7 +45,7 @@ func (printer *Printer) SetWriter(writer Writer) *Printer {
 
 // SetFormats sets [Printer].formats using formats. It returns a pointer to
 // [Printer].
-func (printer *Printer) SetFormats(formats []Format) *Printer {
+func (printer *Printer) SetFormats(formats ...Format) *Printer {
 	printer.formats = formats
 	return printer
 }
@@ -100,10 +100,7 @@ func (printer *Printer) end() string {
 //   - [Printer].foreground: [ForegroundRegular]
 //   - [Printer].background: [BackgroundRegular]
 func NewPrinterRegu() *Printer {
-	formats := []Format{
-		FormatRegular,
-	}
-	return NewPrinter(formats, ForegroundRegular, BackgroundRegular)
+	return NewPrinter(ForegroundRegular, BackgroundRegular, FormatBold)
 }
 
 // NewPrinterSucc creates a new [Printer] to print success mesaages. It returns
@@ -114,10 +111,7 @@ func NewPrinterRegu() *Printer {
 //   - [Printer].foreground: [ForegroundGreen]
 //   - [Printer].background: [BackgroundRegular]
 func NewPrinterSucc() *Printer {
-	formats := []Format{
-		FormatBold,
-	}
-	return NewPrinter(formats, ForegroundGreen, BackgroundRegular)
+	return NewPrinter(ForegroundGreen, BackgroundRegular, FormatBold)
 }
 
 // NewPrinterInfo creates a new [Printer] to print information mesaages. It
@@ -128,10 +122,7 @@ func NewPrinterSucc() *Printer {
 //   - [Printer].foreground: [ForegroundBlue]
 //   - [Printer].background: [BackgroundRegular]
 func NewPrinterInfo() *Printer {
-	formats := []Format{
-		FormatBold,
-	}
-	return NewPrinter(formats, ForegroundBlue, BackgroundRegular)
+	return NewPrinter(ForegroundBlue, BackgroundRegular, FormatBold)
 }
 
 // NewPrinterWarn creates a new [Printer] to print warning mesaages. It returns
@@ -142,10 +133,7 @@ func NewPrinterInfo() *Printer {
 //   - [Printer].foreground: [ForegroundYellow]
 //   - [Printer].background: [BackgroundRegular]
 func NewPrinterWarn() *Printer {
-	formats := []Format{
-		FormatBold,
-	}
-	return NewPrinter(formats, ForegroundYellow, BackgroundRegular)
+	return NewPrinter(ForegroundYellow, BackgroundRegular, FormatBold)
 }
 
 // NewPrinterErro creates a new [Printer] to print error mesaages. It returns a
@@ -156,17 +144,14 @@ func NewPrinterWarn() *Printer {
 //   - [Printer].foreground: [ForegroundRed]
 //   - [Printer].background: [BackgroundRegular]
 func NewPrinterErro() *Printer {
-	formats := []Format{
-		FormatBold,
-	}
-	return NewPrinter(formats, ForegroundRed, BackgroundRegular).SetWriter(WriterError)
+	return NewPrinter(ForegroundRed, BackgroundRegular, FormatBold).SetWriter(WriterError)
 }
 
-// NewPrinter creates a new [Printer] using formats, foreground, and background.
+// NewPrinter creates a new [Printer] using foreground, background, and formats.
 // It returns a pointer to [Printer] with default values.
 //
 //   - [Printer].writer: [WriterRegular]
-func NewPrinter(formats []Format, foreground Foreground, background Background) *Printer {
+func NewPrinter(foreground Foreground, background Background, formats ...Format) *Printer {
 	return &Printer{
 		writer:     WriterRegular,
 		formats:    formats,
