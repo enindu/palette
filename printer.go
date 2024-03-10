@@ -23,52 +23,52 @@ import (
 // Printer represents a new printer with specified fields. A non-zero printer
 // can be used to print.
 type Printer struct {
-	writer     WR
-	styles     []ST
-	foreground FG
-	background BG
+	Writer     WR
+	Styles     []ST
+	Foreground FG
+	Background BG
 }
 
 // Print prints text to [Printer].writer using input and data. It returns number
 // of bytes written and any error encountered.
-func (printer *Printer) Print(input string, data ...any) (int, error) {
-	text := printer.text(input, data...)
-	return fmt.Fprint(printer.writer, text)
+func (p *Printer) Print(i string, a ...any) (int, error) {
+	text := p.text(i, a...)
+	return fmt.Fprint(p.Writer, text)
 }
 
 // SetWriter sets [Printer].writer using writer. It returns a pointer to
 // [Printer].
-func (printer *Printer) SetWriter(writer WR) *Printer {
-	printer.writer = writer
-	return printer
+func (p *Printer) SetWriter(w WR) *Printer {
+	p.Writer = w
+	return p
 }
 
 // SetStyles sets [Printer].styles using styles. It returns a pointer to
 // [Printer].
-func (printer *Printer) SetStyles(styles ...ST) *Printer {
-	printer.styles = styles
-	return printer
+func (p *Printer) SetStyles(s ...ST) *Printer {
+	p.Styles = s
+	return p
 }
 
 // SetForeground sets [Printer].foreground using foreground. It returns a
 // pointer to [Printer].
-func (printer *Printer) SetForeground(foreground FG) *Printer {
-	printer.foreground = foreground
-	return printer
+func (p *Printer) SetForeground(f FG) *Printer {
+	p.Foreground = f
+	return p
 }
 
 // SetBackground sets [Printer].background using background. It returns a
 // pointer to [Printer].
-func (printer *Printer) SetBackground(background BG) *Printer {
-	printer.background = background
-	return printer
+func (p *Printer) SetBackground(b BG) *Printer {
+	p.Background = b
+	return p
 }
 
-func (printer *Printer) text(input string, data ...any) string {
-	start := printer.start()
-	end := printer.end()
-	text := fmt.Sprintf(input, data...)
-	if !strings.Contains(input, "\n") {
+func (p *Printer) text(i string, a ...any) string {
+	start := p.start()
+	end := p.end()
+	text := fmt.Sprintf(i, a...)
+	if !strings.Contains(text, "\n") {
 		return fmt.Sprintf("%s%s%s", start, text, end)
 	}
 	lines := strings.Split(text, "\n")
@@ -80,15 +80,15 @@ func (printer *Printer) text(input string, data ...any) string {
 	return text
 }
 
-func (printer *Printer) start() string {
+func (p *Printer) start() string {
 	styles := ""
-	for _, style := range printer.styles {
+	for _, style := range p.Styles {
 		styles = fmt.Sprintf("%v%v;", styles, style)
 	}
-	return fmt.Sprintf("\x1b[%v%v;%vm", styles, printer.foreground, printer.background)
+	return fmt.Sprintf("\x1b[%v%v;%vm", styles, p.Foreground, p.Background)
 }
 
-func (printer *Printer) end() string {
+func (p *Printer) end() string {
 	return "\x1b[0m"
 }
 
@@ -151,11 +151,11 @@ func NewPrinterErro() *Printer {
 // It returns a pointer to [Printer] with default values.
 //
 //   - [Printer].writer: [WriterRegular]
-func NewPrinter(foreground FG, background BG, styles ...ST) *Printer {
+func NewPrinter(f FG, b BG, s ...ST) *Printer {
 	return &Printer{
-		writer:     WRRegular,
-		styles:     styles,
-		foreground: foreground,
-		background: background,
+		Writer:     WRRegular,
+		Styles:     s,
+		Foreground: f,
+		Background: b,
 	}
 }
