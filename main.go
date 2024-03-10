@@ -25,66 +25,66 @@ import (
 )
 
 const (
-	FormatRegular   Format = 0 // Reset format
-	FormatBold      Format = 1 // Bold format
-	FormatDim       Format = 2 // Dim format
-	FormatItalic    Format = 3 // Italic format
-	FormatUnderline Format = 4 // Underline format
+	STRegular   ST = 0 // Reset style
+	STBold      ST = 1 // Bold style
+	STDim       ST = 2 // Dim style
+	STItalic    ST = 3 // Italic style
+	STUnderline ST = 4 // Underline style
 )
 
 const (
-	ForegroundRegular   Foreground = 39 // Reset foreground
-	ForegroundBlack     Foreground = 30 // Black foreground
-	ForegroundRed       Foreground = 31 // Red foreground
-	ForegroundGreen     Foreground = 32 // Green foreground
-	ForegroundYellow    Foreground = 33 // Yellow foreground
-	ForegroundBlue      Foreground = 34 // Blue foreground
-	ForegroundMagenta   Foreground = 35 // Magenta foreground
-	ForegroundCyan      Foreground = 36 // Cyan foreground
-	ForegroundWhite     Foreground = 37 // White foreground
-	ForegroundHiBlack   Foreground = 90 // High intensity black foreground
-	ForegroundHiRed     Foreground = 91 // High intensity red foreground
-	ForegroundHiGreen   Foreground = 92 // High intensity green foreground
-	ForegroundHiYellow  Foreground = 93 // High intensity yellow foreground
-	ForegroundHiBlue    Foreground = 94 // High intensity blue foreground
-	ForegroundHiMagenta Foreground = 95 // High intensity magenta foreground
-	ForegroundHiCyan    Foreground = 96 // High intensity cyan foreground
-	ForegroundHiWhite   Foreground = 97 // High intensity white foreground
+	FGRegular   FG = 39 // Reset foreground
+	FGBlack     FG = 30 // Black foreground
+	FGRed       FG = 31 // Red foreground
+	FGGreen     FG = 32 // Green foreground
+	FGYellow    FG = 33 // Yellow foreground
+	FGBlue      FG = 34 // Blue foreground
+	FGMagenta   FG = 35 // Magenta foreground
+	FGCyan      FG = 36 // Cyan foreground
+	FGWhite     FG = 37 // White foreground
+	FGHiBlack   FG = 90 // High intensity black foreground
+	FGHiRed     FG = 91 // High intensity red foreground
+	FGHiGreen   FG = 92 // High intensity green foreground
+	FGHiYellow  FG = 93 // High intensity yellow foreground
+	FGHiBlue    FG = 94 // High intensity blue foreground
+	FGHiMagenta FG = 95 // High intensity magenta foreground
+	FGHiCyan    FG = 96 // High intensity cyan foreground
+	FGHiWhite   FG = 97 // High intensity white foreground
 )
 
 const (
-	BackgroundRegular   Background = 49  // Reset background
-	BackgroundBlack     Background = 40  // Black background
-	BackgroundRed       Background = 41  // Red background
-	BackgroundGreen     Background = 42  // Green background
-	BackgroundYellow    Background = 43  // Yellow background
-	BackgroundBlue      Background = 44  // Blue background
-	BackgroundMagenta   Background = 45  // Magenta background
-	BackgroundCyan      Background = 46  // Cyan background
-	BackgroundWhite     Background = 47  // White background
-	BackgroundHiBlack   Background = 100 // High intensity black background
-	BackgroundHiRed     Background = 101 // High intensity red background
-	BackgroundHiGreen   Background = 102 // High intensity green background
-	BackgroundHiYellow  Background = 103 // High intensity yellow background
-	BackgroundHiBlue    Background = 104 // High intensity blue background
-	BackgroundHiMagenta Background = 105 // High intensity magenta background
-	BackgroundHiCyan    Background = 106 // High intensity cyan background
-	BackgroundHiWhite   Background = 107 // High intensity white background
+	BGRegular   BG = 49  // Reset background
+	BGBlack     BG = 40  // Black background
+	BGRed       BG = 41  // Red background
+	BGGreen     BG = 42  // Green background
+	BGYellow    BG = 43  // Yellow background
+	BGBlue      BG = 44  // Blue background
+	BGMagenta   BG = 45  // Magenta background
+	BGCyan      BG = 46  // Cyan background
+	BGWhite     BG = 47  // White background
+	BGHiBlack   BG = 100 // High intensity black background
+	BGHiRed     BG = 101 // High intensity red background
+	BGHiGreen   BG = 102 // High intensity green background
+	BGHiYellow  BG = 103 // High intensity yellow background
+	BGHiBlue    BG = 104 // High intensity blue background
+	BGHiMagenta BG = 105 // High intensity magenta background
+	BGHiCyan    BG = 106 // High intensity cyan background
+	BGHiWhite   BG = 107 // High intensity white background
 )
 
 var (
-	WriterError   Writer = os.Stderr // Error writer
-	WriterRegular Writer = os.Stdout // Regular writer
+	WRError   WR = os.Stderr // Error writer
+	WRRegular WR = os.Stdout // Regular writer
 )
 
-// Writer represents an output writer.
-type Writer io.Writer
+// WR represents an output writer.
+type WR io.Writer
 
-// Format represents a text format.
-type Format int
+// ST represents a text style.
+type ST int
 
-// Foreground represents a text foreground color.
-type Foreground int
+// FG represents a text foreground color.
+type FG int
 
-// Background represents a text background color.
-type Background int
+// BG represents a text background color.
+type BG int

@@ -4,9 +4,9 @@ Palette is a simple library to add ANSI colors to terminal output. See [document
 
 ## Features
 
-- Includes 4 text formats and 32 text colors including foreground and background.
+- Includes 4 text styles and 32 text colors including foreground and background.
 - Includes 5 pre-defined printers.
-- You can set output writer. Writer must implements `palette.Writer`, which is an alias to `io.Writer` interface. Default writer is `palette.WriterRegular`, which is also an alias to `os.Stdout`.
+- You can set output writer. Writer must implements `palette.WR`, which is an alias to `io.Writer` interface. Default writer is `palette.WRRegular`, which is also an alias to `os.Stdout`.
 - You can chain everything in one line using setters.
 
 See usage for more information.
@@ -29,7 +29,7 @@ package main
 import "github.com/enindu/palette"
 
 func main() {
-	printer := palette.NewPrinter(palette.ForegroundRed, palette.BackgroundRegular, palette.FormatBold, palette.FormatUnderline).SetWriter(palette.WriterError)
+	printer := palette.NewPrinter(palette.FGRed, palette.BGRegular, palette.STBold, palette.STUnderline).SetWriter(palette.WRError)
 	printer.Print("this is a test text.\n")
 }
 ```
