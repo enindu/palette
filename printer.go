@@ -20,67 +20,65 @@ import (
 	"strings"
 )
 
-// Printer represents a new printer with specified fields. A non-zero printer
-// can be used to print.
+// Printer represents a new printer. A non-zero printer can print.
 type Printer struct {
-	Writer     WR
-	Styles     []ST
-	Foreground FG
-	Background BG
+	Writer     Writer     // Output writer
+	Styles     []Style    // Text styles
+	Foreground Foreground // Text foreground color
+	Background Background // Text background color
 }
 
-// Print prints text to [Printer].writer using input and data. It returns number
-// of bytes written and any error encountered.
+// Print formats i and a, and writes it to p.Writer. It returns number bytes
+// written and any error occurred.
 func (p *Printer) Print(i string, a ...any) (int, error) {
-	text := p.text(i, a...)
-	return fmt.Fprint(p.Writer, text)
+	format := p.format(i, a...)
+	return fmt.Fprint(p.Writer, format)
 }
 
-// SetWriter sets [Printer].writer using writer. It returns a pointer to
-// [Printer].
-func (p *Printer) SetWriter(w WR) *Printer {
+// SetWriter sets p.Writer using w. It returns a pointer to p.
+func (p *Printer) SetWriter(w Writer) *Printer {
 	p.Writer = w
 	return p
 }
 
-// SetStyles sets [Printer].styles using styles. It returns a pointer to
-// [Printer].
-func (p *Printer) SetStyles(s ...ST) *Printer {
+// SetStyles sets p.Styles using s. It returns a pointer to p.
+func (p *Printer) SetStyles(s ...Style) *Printer {
 	p.Styles = s
 	return p
 }
 
-// SetForeground sets [Printer].foreground using foreground. It returns a
-// pointer to [Printer].
-func (p *Printer) SetForeground(f FG) *Printer {
+// SetForeground sets p.Foreground using f. It returns a pointer to p.
+func (p *Printer) SetForeground(f Foreground) *Printer {
 	p.Foreground = f
 	return p
 }
 
-// SetBackground sets [Printer].background using background. It returns a
-// pointer to [Printer].
-func (p *Printer) SetBackground(b BG) *Printer {
+// SetBackground sets p.Background using b. It returns a pointer to p.
+func (p *Printer) SetBackground(b Background) *Printer {
 	p.Background = b
 	return p
 }
 
-func (p *Printer) text(i string, a ...any) string {
-	start := p.start()
-	end := p.end()
-	text := fmt.Sprintf(i, a...)
-	if !strings.Contains(text, "\n") {
-		return fmt.Sprintf("%s%s%s", start, text, end)
+func (p *Printer) format(i string, a ...any) string {
+	set := p.set()
+	unset := p.unset()
+	format := fmt.Sprintf(i, a...)
+	if !strings.Contains(format, "\n") {
+		return fmt.Sprintf("%s%s%s", set, format, unset)
 	}
-	lines := strings.Split(text, "\n")
-	length := len(lines) - 1
-	text = ""
+	lines := strings.SplitAfter(format, "\n")
+	length := len(lines)
+	if strings.HasSuffix(format, "\n") {
+		length = length - 1
+	}
+	format = ""
 	for _, line := range lines[:length] {
-		text = fmt.Sprintf("%s%s%s%s\n", text, start, line, end)
+		format = fmt.Sprintf("%s%s%s%s", format, set, line, unset)
 	}
-	return text
+	return format
 }
 
-func (p *Printer) start() string {
+func (p *Printer) set() string {
 	styles := ""
 	for _, style := range p.Styles {
 		styles = fmt.Sprintf("%v%v;", styles, style)
@@ -88,72 +86,72 @@ func (p *Printer) start() string {
 	return fmt.Sprintf("\x1b[%v%v;%vm", styles, p.Foreground, p.Background)
 }
 
-func (p *Printer) end() string {
+func (p *Printer) unset() string {
 	return "\x1b[0m"
 }
 
 // NewPrinterRegu creates a new [Printer] to print regular mesaages. It returns
 // a pointer to [Printer] with pre-defined values.
 //
-//   - [Printer].writer: [WriterRegular]
-//   - [Printer].styles: [STRegular]
-//   - [Printer].foreground: [FGRegular]
-//   - [Printer].background: [BGRegular]
+//   - [Printer].Writer: [WrRegular]
+//   - [Printer].Styles: [StRegular]
+//   - [Printer].Foreground: [FgRegular]
+//   - [Printer].Background: [BgRegular]
 func NewPrinterRegu() *Printer {
-	return NewPrinter(FGRegular, BGRegular, STRegular)
+	return NewPrinter(FgRegular, BgRegular, StRegular)
 }
 
 // NewPrinterSucc creates a new [Printer] to print success mesaages. It returns
 // a pointer to [Printer] with pre-defined values.
 //
-//   - [Printer].writer: [WriterRegular]
-//   - [Printer].styles: [STBold]
-//   - [Printer].foreground: [FGGreen]
-//   - [Printer].background: [BGRegular]
+//   - [Printer].Writer: [WrRegular]
+//   - [Printer].Styles: [StBold]
+//   - [Printer].Foreground: [FgGreen]
+//   - [Printer].Background: [BgRegular]
 func NewPrinterSucc() *Printer {
-	return NewPrinter(FGGreen, BGRegular, STBold)
+	return NewPrinter(FgGreen, BgRegular, StBold)
 }
 
 // NewPrinterInfo creates a new [Printer] to print information mesaages. It
 // returns a pointer to [Printer] with pre-defined values.
 //
-//   - [Printer].writer: [WriterRegular]
-//   - [Printer].styles: [STBold]
-//   - [Printer].foreground: [FGBlue]
-//   - [Printer].background: [BGRegular]
+//   - [Printer].Writer: [WrRegular]
+//   - [Printer].Styles: [StBold]
+//   - [Printer].Foreground: [FgBlue]
+//   - [Printer].Background: [BgRegular]
 func NewPrinterInfo() *Printer {
-	return NewPrinter(FGBlue, BGRegular, STBold)
+	return NewPrinter(FgBlue, BgRegular, StBold)
 }
 
 // NewPrinterWarn creates a new [Printer] to print warning mesaages. It returns
 // a pointer to [Printer] with pre-defined values.
 //
-//   - [Printer].writer: [WriterRegular]
-//   - [Printer].styles: [STBold]
-//   - [Printer].foreground: [FGYellow]
-//   - [Printer].background: [BGRegular]
+//   - [Printer].Writer: [WrRegular]
+//   - [Printer].Styles: [StBold]
+//   - [Printer].Foreground: [FgYellow]
+//   - [Printer].Background: [BgRegular]
 func NewPrinterWarn() *Printer {
-	return NewPrinter(FGYellow, BGRegular, STBold)
+	return NewPrinter(FgYellow, BgRegular, StBold)
 }
 
 // NewPrinterErro creates a new [Printer] to print error mesaages. It returns a
 // pointer to [Printer] with pre-defined values.
 //
-//   - [Printer].writer: [WRError]
-//   - [Printer].styles: [STBold]
-//   - [Printer].foreground: [FGRed]
-//   - [Printer].background: [BGRegular]
+//   - [Printer].Writer: [WrError]
+//   - [Printer].Styles: [StBold]
+//   - [Printer].Foreground: [FgRed]
+//   - [Printer].Background: [BgRegular]
 func NewPrinterErro() *Printer {
-	return NewPrinter(FGRed, BGRegular, STBold).SetWriter(WRError)
+	return NewPrinter(FgRed, BgRegular, StBold).SetWriter(WrError)
 }
 
-// NewPrinter creates a new [Printer] using foreground, background, and styles.
-// It returns a pointer to [Printer] with default values.
+// NewPrinter creates a new [Printer] using f, b, and s. It returns a pointer to
+// [Printer] with default values.
 //
-//   - [Printer].writer: [WriterRegular]
-func NewPrinter(f FG, b BG, s ...ST) *Printer {
+//   - [Printer].Writer: [WrRegular]
+func NewPrinter(f Foreground, b Background, s ...Style) *Printer {
 	return &Printer{
-		Writer:     WRRegular,
+		Writer:     WrRegular,
 		Styles:     s,
 		Foreground: f,
 		Background: b,
