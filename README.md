@@ -30,6 +30,6 @@ import "github.com/enindu/palette"
 
 func main() {
 	p := palette.NewPrinter(palette.FgRed, palette.BgRegular, palette.StBold, palette.StUnderline).SetWriter(palette.WrError)
-	p.Print("hello world!")
+	p.Print("hello world!\n")
 }
 ```
