@@ -14,77 +14,58 @@
 // Palette. If not, see <https://www.gnu.org/licenses/>.
 
 // Package palette is a simple library to add ANSI colors to terminal output.
+//
+// Under the hood, Palette uses [fmt.Sprintf] function to format input, [bytes.Buffer] struct to concatenate strings, and "Writer" method of [io.Writer] interface to write output. It does not use traditional [fmt] functions to write.
+//
 // See [repository] for more information.
 //
 // [repository]: https://github.com/enindu/palette
 package palette
 
-import (
-	"io"
-	"os"
+const (
+	StRegular   uint64 = 0 // Reset style
+	StBold      uint64 = 1 // Bold style
+	StDim       uint64 = 2 // Dim style
+	StItalic    uint64 = 3 // Italic style
+	StUnderline uint64 = 4 // Underline style
 )
 
 const (
-	StRegular   Style = 0 // Reset style
-	StBold      Style = 1 // Bold style
-	StDim       Style = 2 // Dim style
-	StItalic    Style = 3 // Italic style
-	StUnderline Style = 4 // Underline style
+	FgRegular   uint64 = 39 // Reset foreground
+	FgBlack     uint64 = 30 // Black foreground
+	FgRed       uint64 = 31 // Red foreground
+	FgGreen     uint64 = 32 // Green foreground
+	FgYellow    uint64 = 33 // Yellow foreground
+	FgBlue      uint64 = 34 // Blue foreground
+	FgMagenta   uint64 = 35 // Magenta foreground
+	FgCyan      uint64 = 36 // Cyan foreground
+	FgWhite     uint64 = 37 // White foreground
+	FgHiBlack   uint64 = 90 // High intensity black foreground
+	FgHiRed     uint64 = 91 // High intensity red foreground
+	FgHiGreen   uint64 = 92 // High intensity green foreground
+	FgHiYellow  uint64 = 93 // High intensity yellow foreground
+	FgHiBlue    uint64 = 94 // High intensity blue foreground
+	FgHiMagenta uint64 = 95 // High intensity magenta foreground
+	FgHiCyan    uint64 = 96 // High intensity cyan foreground
+	FgHiWhite   uint64 = 97 // High intensity white foreground
 )
 
 const (
-	FgRegular   Foreground = 39 // Reset foreground
-	FgBlack     Foreground = 30 // Black foreground
-	FgRed       Foreground = 31 // Red foreground
-	FgGreen     Foreground = 32 // Green foreground
-	FgYellow    Foreground = 33 // Yellow foreground
-	FgBlue      Foreground = 34 // Blue foreground
-	FgMagenta   Foreground = 35 // Magenta foreground
-	FgCyan      Foreground = 36 // Cyan foreground
-	FgWhite     Foreground = 37 // White foreground
-	FgHiBlack   Foreground = 90 // High intensity black foreground
-	FgHiRed     Foreground = 91 // High intensity red foreground
-	FgHiGreen   Foreground = 92 // High intensity green foreground
-	FgHiYellow  Foreground = 93 // High intensity yellow foreground
-	FgHiBlue    Foreground = 94 // High intensity blue foreground
-	FgHiMagenta Foreground = 95 // High intensity magenta foreground
-	FgHiCyan    Foreground = 96 // High intensity cyan foreground
-	FgHiWhite   Foreground = 97 // High intensity white foreground
+	BgRegular   uint64 = 49  // Reset background
+	BgBlack     uint64 = 40  // Black background
+	BgRed       uint64 = 41  // Red background
+	BgGreen     uint64 = 42  // Green background
+	BgYellow    uint64 = 43  // Yellow background
+	BgBlue      uint64 = 44  // Blue background
+	BgMagenta   uint64 = 45  // Magenta background
+	BgCyan      uint64 = 46  // Cyan background
+	BgWhite     uint64 = 47  // White background
+	BgHiBlack   uint64 = 100 // High intensity black background
+	BgHiRed     uint64 = 101 // High intensity red background
+	BgHiGreen   uint64 = 102 // High intensity green background
+	BgHiYellow  uint64 = 103 // High intensity yellow background
+	BgHiBlue    uint64 = 104 // High intensity blue background
+	BgHiMagenta uint64 = 105 // High intensity magenta background
+	BgHiCyan    uint64 = 106 // High intensity cyan background
+	BgHiWhite   uint64 = 107 // High intensity white background
 )
-
-const (
-	BgRegular   Background = 49  // Reset background
-	BgBlack     Background = 40  // Black background
-	BgRed       Background = 41  // Red background
-	BgGreen     Background = 42  // Green background
-	BgYellow    Background = 43  // Yellow background
-	BgBlue      Background = 44  // Blue background
-	BgMagenta   Background = 45  // Magenta background
-	BgCyan      Background = 46  // Cyan background
-	BgWhite     Background = 47  // White background
-	BgHiBlack   Background = 100 // High intensity black background
-	BgHiRed     Background = 101 // High intensity red background
-	BgHiGreen   Background = 102 // High intensity green background
-	BgHiYellow  Background = 103 // High intensity yellow background
-	BgHiBlue    Background = 104 // High intensity blue background
-	BgHiMagenta Background = 105 // High intensity magenta background
-	BgHiCyan    Background = 106 // High intensity cyan background
-	BgHiWhite   Background = 107 // High intensity white background
-)
-
-var (
-	WrError   Writer = os.Stderr // Error writer
-	WrRegular Writer = os.Stdout // Regular writer
-)
-
-// Writer represents an output writer.
-type Writer io.Writer
-
-// Style represents a text style.
-type Style int
-
-// Foreground represents a text foreground color.
-type Foreground int
-
-// Background represents a text background color.
-type Background int

@@ -16,96 +16,99 @@
 package palette
 
 import (
+	"bytes"
 	"fmt"
+	"io"
+	"os"
+	"strconv"
 	"strings"
 )
 
 // Printer represents a new printer. A non-zero printer can print.
 type Printer struct {
-	writer     Writer
-	styles     []Style
-	foreground Foreground
-	background Background
+	writer     io.Writer
+	styles     []uint64
+	foreground uint64
+	background uint64
+	buffer     *bytes.Buffer
 }
 
 // Print formats i and a, and writes it to p.writer. It returns number bytes
 // written and any error occurred.
 func (p *Printer) Print(i string, a ...any) (int, error) {
-	format := p.format(i, a...)
-	return fmt.Fprint(p.writer, format)
+	defer p.buffer.Reset()
+	p.format(i, a...)
+	output := p.buffer.Bytes()
+	return p.writer.Write(output)
 }
 
 // SetWriter sets p.writer using w. It returns a pointer to p.
-func (p *Printer) SetWriter(w Writer) *Printer {
+func (p *Printer) SetWriter(w io.Writer) *Printer {
 	p.writer = w
 	return p
 }
 
 // SetStyles sets p.styles using s. It returns a pointer to p.
-func (p *Printer) SetStyles(s ...Style) *Printer {
+func (p *Printer) SetStyles(s ...uint64) *Printer {
 	p.styles = s
 	return p
 }
 
 // SetForeground sets p.foreground using f. It returns a pointer to p.
-func (p *Printer) SetForeground(f Foreground) *Printer {
+func (p *Printer) SetForeground(f uint64) *Printer {
 	p.foreground = f
 	return p
 }
 
 // SetBackground sets p.background using b. It returns a pointer to p.
-func (p *Printer) SetBackground(b Background) *Printer {
+func (p *Printer) SetBackground(b uint64) *Printer {
 	p.background = b
 	return p
 }
 
-func (p *Printer) format(i string, a ...any) string {
-	builder := &strings.Builder{}
-	set := p.set()
-	unset := p.unset()
+func (p *Printer) format(i string, a ...any) {
 	format := fmt.Sprintf(i, a...)
 	if !strings.Contains(format, "\n") {
-		builder.WriteString(set)
-		builder.WriteString(format)
-		builder.WriteString(unset)
-		return builder.String()
+		p.set()
+		p.buffer.WriteString(format)
+		p.unset()
+		return
 	}
-	builder.Reset()
 	lines := strings.SplitAfter(format, "\n")
 	length := len(lines)
 	if strings.HasSuffix(format, "\n") {
 		length = length - 1
 	}
-	for _, line := range lines[:length] {
-		eol := ""
-		if strings.HasSuffix(line, "\n") {
-			line = strings.TrimSuffix(line, "\n")
-			eol = "\n"
+	for _, v := range lines[:length] {
+		end := ""
+		if strings.HasSuffix(v, "\n") {
+			v = strings.TrimSuffix(v, "\n")
+			end = "\n"
 		}
-		builder.WriteString(set)
-		builder.WriteString(line)
-		builder.WriteString(unset)
-		builder.WriteString(eol)
+		p.set()
+		p.buffer.WriteString(v)
+		p.unset()
+		p.buffer.WriteString(end)
 	}
-	return builder.String()
 }
 
-func (p *Printer) set() string {
-	builder := &strings.Builder{}
-	builder.WriteString("\x1b[")
-	for _, style := range p.styles {
-		builder.WriteString(fmt.Sprint(style))
-		builder.WriteString(";")
+func (p *Printer) set() {
+	p.buffer.WriteString("\x1b[")
+	for _, v := range p.styles {
+		style := strconv.FormatUint(v, 10)
+		p.buffer.WriteString(style)
+		p.buffer.WriteString(";")
 	}
-	builder.WriteString(fmt.Sprint(p.foreground))
-	builder.WriteString(";")
-	builder.WriteString(fmt.Sprint(p.background))
-	builder.WriteString("m")
-	return builder.String()
+	foreground := strconv.FormatUint(p.foreground, 10)
+	background := strconv.FormatUint(p.background, 10)
+	p.buffer.WriteString(foreground)
+	p.buffer.WriteString(";")
+	p.buffer.WriteString(background)
+	p.buffer.WriteString("m")
 }
 
-func (p *Printer) unset() string {
-	return "\x1b[0m"
+func (p *Printer) unset() {
+	p.buffer.WriteString("\x1b[0m")
 }
 
 // NewPrinterRegu creates a new [Printer] to print regular messages. It returns
@@ -135,16 +138,17 @@ func NewPrinterWarn() *Printer {
 // NewPrinterErro creates a new [Printer] to print error messages. It returns a
 // pointer to [Printer] with pre-defined values.
 func NewPrinterErro() *Printer {
-	return NewPrinter(FgRed, BgRegular, StBold).SetWriter(WrError)
+	return NewPrinter(FgRed, BgRegular, StBold).SetWriter(os.Stderr)
 }
 
 // NewPrinter creates a new [Printer] using f, b, and s. It returns a pointer to
 // [Printer] with default values.
-func NewPrinter(f Foreground, b Background, s ...Style) *Printer {
+func NewPrinter(f uint64, b uint64, s ...uint64) *Printer {
 	return &Printer{
-		writer:     WrRegular,
+		writer:     os.Stdout,
 		styles:     s,
 		foreground: f,
 		background: b,
+		buffer:     &bytes.Buffer{},
 	}
 }
