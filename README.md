@@ -2,7 +2,7 @@
 
 Palette is a simple library to add ANSI colors to terminal output.
 
-Under the hood, Palette uses `fmt.Sprintf` function to format input, `bytes.Buffer` struct to concatenate strings, and `Writer` method of `io.Writer` interface to write output. It does not use traditional `fmt` functions to write.
+Under the hood, Palette uses [fmt.Sprintf](https://pkg.go.dev/fmt#Sprintf) function to format input, [bytes.Buffer](https://pkg.go.dev/bytes#Buffer) struct to concatenate strings, and [bytes.Buffer.WriteTo](https://pkg.go.dev/bytes#Buffer.WriteTo) method to write output. It does not use traditional [fmt](https://pkg.go.dev/fmt) functions to write.
 
 See [documentation](https://pkg.go.dev/github.com/enindu/palette) for more information.
 
@@ -10,7 +10,7 @@ See [documentation](https://pkg.go.dev/github.com/enindu/palette) for more infor
 
 - Includes 5 text styles and 32 text colors including foreground and background.
 - Includes 5 pre-defined printers.
-- You can set output writer. Writer must implements `io.Writer` interface. Default writer is `os.Stdout`.
+- You can set output writer. Writer must implements [io.Writer](https://pkg.go.dev/io#Writer) interface. Default writer is [os.Stdout](https://pkg.go.dev/os#pkg-variables).
 - You can chain everything in one line using setters.
 
 ## Install

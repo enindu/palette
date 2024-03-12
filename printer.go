@@ -35,11 +35,10 @@ type Printer struct {
 
 // Print formats i and a, and writes it to p.writer. It returns number bytes
 // written and any error occurred.
-func (p *Printer) Print(i string, a ...any) (int, error) {
+func (p *Printer) Print(i string, a ...any) (int64, error) {
 	defer p.buffer.Reset()
 	p.format(i, a...)
-	output := p.buffer.Bytes()
-	return p.writer.Write(output)
+	return p.buffer.WriteTo(p.writer)
 }
 
 // SetWriter sets p.writer using w. It returns a pointer to p.

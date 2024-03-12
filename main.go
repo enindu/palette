@@ -15,7 +15,9 @@
 
 // Package palette is a simple library to add ANSI colors to terminal output.
 //
-// Under the hood, Palette uses [fmt.Sprintf] function to format input, [bytes.Buffer] struct to concatenate strings, and "Writer" method of [io.Writer] interface to write output. It does not use traditional [fmt] functions to write.
+// Under the hood, Palette uses [fmt.Sprintf] function to format input,
+// [bytes.Buffer] struct to concatenate strings, and [bytes.Buffer.WriteTo]
+// method to write output. It does not use traditional [fmt] functions to write.
 //
 // See [repository] for more information.
 //
