@@ -45,7 +45,7 @@ func main() {
 Note that Palette is an experimental library. It is not even close to competing with other well-designed libraries. Sole aim was to create a lightweight library with minimal allocations and faster execution for use in hot paths.
 
 ```
-$ go test -bench . -benchmem -benchtime 10s
+$ go test -bench . -benchtime 10s -benchmem
 goos: linux
 goarch: amd64
 pkg: github.com/enindu/palette

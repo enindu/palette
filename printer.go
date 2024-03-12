@@ -22,7 +22,10 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 )
+
+var mutex *sync.Mutex = &sync.Mutex{}
 
 // Printer represents a new printer. A non-zero printer can print.
 type Printer struct {
@@ -36,6 +39,8 @@ type Printer struct {
 // Print formats i and a, and writes it to p.writer. It returns number bytes
 // written and any error occurred.
 func (p *Printer) Print(i string, a ...any) (int64, error) {
+	mutex.Lock()
+	defer mutex.Unlock()
 	defer p.buffer.Reset()
 	p.format(i, a...)
 	return p.buffer.WriteTo(p.writer)
