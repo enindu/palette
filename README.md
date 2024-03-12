@@ -1,6 +1,6 @@
 # Palette
 
-Palette is a simple library to add ANSI colors to terminal output.
+Palette is a simple library to add ANSI colors to command line output.
 
 Under the hood, Palette uses [fmt.Sprintf](https://pkg.go.dev/fmt#Sprintf) function to format input, [bytes.Buffer](https://pkg.go.dev/bytes#Buffer) struct to concatenate strings, and [bytes.Buffer.WriteTo](https://pkg.go.dev/bytes#Buffer.WriteTo) method to write output. It does not use traditional [fmt](https://pkg.go.dev/fmt) functions to write.
 
@@ -42,7 +42,7 @@ func main() {
 
 ## Benchmark
 
-Note that Palette is an experimental library. It is not even close to competing with other well-designed libraries. Sole aim was to create a lightweight library with minimal allocations and faster execution for use in hot paths.
+Note that Palette is an experimental library. It is not even close to competing with other well-designed libraries. My sole aim was to create a lightweight library with minimal allocations and faster execution for use in hot paths.
 
 ```
 $ go test -bench . -benchtime 10s -benchmem

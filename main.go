@@ -13,7 +13,8 @@
 // You should have received a copy of the GNU General Public License along with
 // Palette. If not, see <https://www.gnu.org/licenses/>.
 
-// Package palette is a simple library to add ANSI colors to terminal output.
+// Package palette is a simple library to add ANSI colors to command line
+// output.
 //
 // Under the hood, Palette uses [fmt.Sprintf] function to format input,
 // [bytes.Buffer] struct to concatenate strings, and [bytes.Buffer.WriteTo]

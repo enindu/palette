@@ -27,7 +27,8 @@ import (
 
 var mutex *sync.Mutex = &sync.Mutex{}
 
-// Printer represents a new printer. A non-zero printer can print.
+// Printer represents a new printer. A printer is safe to use concurrently in
+// multiple goroutines except setters.
 type Printer struct {
 	writer     io.Writer
 	styles     []uint64
