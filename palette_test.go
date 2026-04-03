@@ -1,5 +1,4 @@
 // This file is part of Palette.
-// Copyright (C) 2024 Enindu Alahapperuma
 //
 // Palette is free software: you can redistribute it and/or modify it under the
 // terms of the GNU General Public License as published by the Free Software
@@ -25,34 +24,44 @@ import (
 
 func BenchmarkEninduPalette(b *testing.B) {
 	out, err := os.Open(os.DevNull)
+
 	if err != nil {
 		panic(err)
 	}
+
 	for i := 0; i < b.N; i++ {
 		p := NewPrinter(FgRed, BgRegular, StBold).SetWriter(out)
+
 		p.Print("hello world!\n")
 	}
 }
 
 func BenchmarkFatihColor(b *testing.B) {
 	out, err := os.Open(os.DevNull)
+
 	if err != nil {
 		panic(err)
 	}
+
 	for i := 0; i < b.N; i++ {
 		c := fatihcolor.New(fatihcolor.FgRed, fatihcolor.Bold)
+
 		c.Fprint(out, "hello world!\n")
 	}
 }
 
 func BenchmarkGookitColor(b *testing.B) {
 	out, err := os.Open(os.DevNull)
+
 	if err != nil {
 		panic(err)
 	}
+
 	for i := 0; i < b.N; i++ {
 		gookitcolor.SetOutput(out)
+
 		c := gookitcolor.New(gookitcolor.Red, gookitcolor.Bold)
+
 		c.Print("hello world!\n")
 	}
 }

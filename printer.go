@@ -1,5 +1,4 @@
 // This file is part of Palette.
-// Copyright (C) 2024 Enindu Alahapperuma
 //
 // Palette is free software: you can redistribute it and/or modify it under the
 // terms of the GNU General Public License as published by the Free Software
@@ -41,8 +40,10 @@ type Printer struct {
 // written and any error occurred.
 func (p *Printer) Print(i string, a ...any) (int64, error) {
 	mutex.Lock()
+
 	defer mutex.Unlock()
 	defer p.buffer.Reset()
+
 	p.format(i, a...)
 	return p.buffer.WriteTo(p.writer)
 }
@@ -73,23 +74,31 @@ func (p *Printer) SetBackground(b uint64) *Printer {
 
 func (p *Printer) format(i string, a ...any) {
 	format := fmt.Sprintf(i, a...)
+
 	if !strings.Contains(format, "\n") {
 		p.set()
 		p.buffer.WriteString(format)
 		p.unset()
+
 		return
 	}
+
 	lines := strings.SplitAfter(format, "\n")
 	length := len(lines)
+
 	if strings.HasSuffix(format, "\n") {
 		length = length - 1
 	}
+
 	for _, v := range lines[:length] {
 		end := ""
-		if strings.HasSuffix(v, "\n") {
-			v = strings.TrimSuffix(v, "\n")
+		before, ok := strings.CutSuffix(v, "\n")
+
+		if ok {
+			v = before
 			end = "\n"
 		}
+
 		p.set()
 		p.buffer.WriteString(v)
 		p.unset()
@@ -99,13 +108,17 @@ func (p *Printer) format(i string, a ...any) {
 
 func (p *Printer) set() {
 	p.buffer.WriteString("\x1b[")
+
 	for _, v := range p.styles {
 		style := strconv.FormatUint(v, 10)
+
 		p.buffer.WriteString(style)
 		p.buffer.WriteString(";")
 	}
+
 	foreground := strconv.FormatUint(p.foreground, 10)
 	background := strconv.FormatUint(p.background, 10)
+
 	p.buffer.WriteString(foreground)
 	p.buffer.WriteString(";")
 	p.buffer.WriteString(background)
