@@ -55,8 +55,12 @@ goarch: amd64
 pkg: github.com/enindu/palette
 cpu: AMD Ryzen 5 5600H with Radeon Graphics
 BenchmarkEninduPalette-12       17180758               700.5 ns/op           216 B/op          6 allocs/op
-BenchmarkFatihColor-12           6501765              1850 ns/op             240 B/op          9 allocs/op
+BenchmarkFatihColor-12           6501765              1850.0 ns/op           240 B/op          9 allocs/op
 BenchmarkGookitColor-12         14951512               822.9 ns/op           256 B/op          7 allocs/op
 PASS
 ok      github.com/enindu/palette       39.832s
 ```
+
+## License
+
+This software is licensed under GNU General Public License 3.0. You can view full license [here](https://github.com/enindu/palette/blob/master/COPYING.md).
