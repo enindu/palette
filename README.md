@@ -33,8 +33,14 @@ import (
 )
 
 func main() {
-	p := palette.NewPrinter(palette.FgRed, palette.BgRegular, palette.StBold, palette.StUnderline).SetWriter(os.Stderr)
-	p.Print("hello world!\n")
+	printer := palette.NewPrinter(
+		palette.FgRed,
+		palette.BgRegular,
+		palette.StBold,
+		palette.StUnderline,
+	).SetWriter(os.Stderr)
+
+	printer.Print("hello world!\n")
 }
 ```
 
