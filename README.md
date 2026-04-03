@@ -47,10 +47,10 @@ $ go test -bench . -benchtime 10s -benchmem
 goos: linux
 goarch: amd64
 pkg: github.com/enindu/palette
-cpu: AMD Ryzen 5 5600H with Radeon Graphics         
-BenchmarkEninduPalette-12       16999292               702.6 ns/op           216 B/op          6 allocs/op
-BenchmarkFatihColor-12           6438104                1861 ns/op             240 B/op          9 allocs/op
-BenchmarkGookitColor-12         14796056               842.1 ns/op           257 B/op          7 allocs/op
+cpu: AMD Ryzen 5 5600H with Radeon Graphics
+BenchmarkEninduPalette-12       17180758               700.5 ns/op           216 B/op          6 allocs/op
+BenchmarkFatihColor-12           6501765              1850 ns/op             240 B/op          9 allocs/op
+BenchmarkGookitColor-12         14951512               822.9 ns/op           256 B/op          7 allocs/op
 PASS
-ok      github.com/enindu/palette       39.911s
+ok      github.com/enindu/palette       39.832s
 ```
