@@ -36,6 +36,48 @@ type Printer struct {
 	buffer     *bytes.Buffer
 }
 
+// NewPrinter creates a new [Printer] using f, b, and s. It returns a pointer to
+// [Printer] with default values.
+func NewPrinter(f uint64, b uint64, s ...uint64) *Printer {
+	return &Printer{
+		writer:     os.Stdout,
+		styles:     s,
+		foreground: f,
+		background: b,
+		buffer:     &bytes.Buffer{},
+	}
+}
+
+// NewPrinterRegu creates a new [Printer] to print regular messages. It returns
+// a pointer to [Printer] with pre-defined values.
+func NewPrinterRegu() *Printer {
+	return NewPrinter(FgRegular, BgRegular, StRegular)
+}
+
+// NewPrinterSucc creates a new [Printer] to print success messages. It returns
+// a pointer to [Printer] with pre-defined values.
+func NewPrinterSucc() *Printer {
+	return NewPrinter(FgGreen, BgRegular, StBold)
+}
+
+// NewPrinterInfo creates a new [Printer] to print information messages. It
+// returns a pointer to [Printer] with pre-defined values.
+func NewPrinterInfo() *Printer {
+	return NewPrinter(FgBlue, BgRegular, StBold)
+}
+
+// NewPrinterWarn creates a new [Printer] to print warning messages. It returns
+// a pointer to [Printer] with pre-defined values.
+func NewPrinterWarn() *Printer {
+	return NewPrinter(FgYellow, BgRegular, StBold)
+}
+
+// NewPrinterErro creates a new [Printer] to print error messages. It returns a
+// pointer to [Printer] with pre-defined values.
+func NewPrinterErro() *Printer {
+	return NewPrinter(FgRed, BgRegular, StBold).SetWriter(os.Stderr)
+}
+
 // Print formats i and a, and writes it to p.writer. It returns number bytes
 // written and any error occurred.
 func (p *Printer) Print(i string, a ...any) (int64, error) {
@@ -127,46 +169,4 @@ func (p *Printer) set() {
 
 func (p *Printer) unset() {
 	p.buffer.WriteString("\x1b[0m")
-}
-
-// NewPrinterRegu creates a new [Printer] to print regular messages. It returns
-// a pointer to [Printer] with pre-defined values.
-func NewPrinterRegu() *Printer {
-	return NewPrinter(FgRegular, BgRegular, StRegular)
-}
-
-// NewPrinterSucc creates a new [Printer] to print success messages. It returns
-// a pointer to [Printer] with pre-defined values.
-func NewPrinterSucc() *Printer {
-	return NewPrinter(FgGreen, BgRegular, StBold)
-}
-
-// NewPrinterInfo creates a new [Printer] to print information messages. It
-// returns a pointer to [Printer] with pre-defined values.
-func NewPrinterInfo() *Printer {
-	return NewPrinter(FgBlue, BgRegular, StBold)
-}
-
-// NewPrinterWarn creates a new [Printer] to print warning messages. It returns
-// a pointer to [Printer] with pre-defined values.
-func NewPrinterWarn() *Printer {
-	return NewPrinter(FgYellow, BgRegular, StBold)
-}
-
-// NewPrinterErro creates a new [Printer] to print error messages. It returns a
-// pointer to [Printer] with pre-defined values.
-func NewPrinterErro() *Printer {
-	return NewPrinter(FgRed, BgRegular, StBold).SetWriter(os.Stderr)
-}
-
-// NewPrinter creates a new [Printer] using f, b, and s. It returns a pointer to
-// [Printer] with default values.
-func NewPrinter(f uint64, b uint64, s ...uint64) *Printer {
-	return &Printer{
-		writer:     os.Stdout,
-		styles:     s,
-		foreground: f,
-		background: b,
-		buffer:     &bytes.Buffer{},
-	}
 }
