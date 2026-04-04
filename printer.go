@@ -21,10 +21,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"sync"
 )
-
-var mutex *sync.Mutex = &sync.Mutex{}
 
 // Printer represents a new printer. A printer is safe to use concurrently in
 // multiple goroutines except setters.

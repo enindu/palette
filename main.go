@@ -21,6 +21,8 @@
 // method to write output. It does not use traditional [fmt] functions to write.
 package palette
 
+import "sync"
+
 const (
 	StRegular   uint64 = 0   // Reset style
 	StBold      uint64 = 1   // Bold style
@@ -62,3 +64,5 @@ const (
 	BgHiCyan    uint64 = 106 // High intensity cyan background
 	BgHiWhite   uint64 = 107 // High intensity white background
 )
+
+var mutex sync.Mutex
